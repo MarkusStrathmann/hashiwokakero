@@ -1,0 +1,345 @@
+@startuml hashiwokakero
+skinparam nodesep 50
+skinparam ranksep 75
+( ) as a1 #line:lightgrey 
+( ) as b1 #line:lightgrey
+(1) as c1 #white;line:orange;line.bold;
+(7) as d1 #white;line:orange;line.bold;
+(5) as e1 #white;line:orange;line.bold;
+(3) as f1 #white;line:orange;line.bold;
+(3) as g1 #white;line:orange;line.bold;
+(6) as h1 #white;line:orange;line.bold;
+(5) as i1 #white;line:orange;line.bold;
+(2) as j1 #white;line:orange;line.bold;
+
+(X) as dummy2 
+hide dummy2
+( ) as a2 #line:lightgrey
+(2) as b2 #white;line:orange;line.bold;
+(4) as c2 #white;line:orange;line.bold;
+(4) as d2 #white;line:orange;line.bold;
+( ) as e2 #line:lightgrey
+( ) as f2 #line:lightgrey
+( ) as g2 #line:lightgrey
+(5) as h2 #white;line:orange;line.bold;
+( ) as i2 #line:lightgrey
+( ) as j2 #line:lightgrey
+
+( ) as a3 #line:lightgrey
+( ) as b3 #line:lightgrey
+(2) as c3 #white;line:orange;line.bold;
+(3) as d3 #white;line:orange;line.bold;
+( ) as e3 #line:lightgrey
+( ) as f3 #line:lightgrey
+(1) as g3 #white;line:orange;line.bold;
+( ) as h3 #line:lightgrey
+( ) as i3 #line:lightgrey
+( ) as j3 #line:lightgrey
+
+(X) as dummy4 
+hide dummy4
+( ) as a4 #line:lightgrey
+(2) as b4 #white;line:orange;line.bold;
+(7) as c4 #white;line:orange;line.bold;
+(3) as d4 #white;line:orange;line.bold;
+(4) as e4 #white;line:orange;line.bold;
+(4) as f4 #white;line:orange;line.bold;
+( ) as g4 #line:lightgrey 
+( ) as h4 #line:lightgrey
+( ) as i4 #line:lightgrey
+( ) as j4 #line:lightgrey
+
+( ) as a5 #line:lightgrey
+( ) as b5 #line:lightgrey
+(7) as c5 #white;line:orange;line.bold;
+(7) as d5 #white;line:orange;line.bold;
+( ) as e5 #line:lightgrey
+(1) as f5 #white;line:orange;line.bold;
+( ) as g5 #line:lightgrey
+( ) as h5 #line:lightgrey
+( ) as i5 #line:lightgrey
+( ) as j5 #line:lightgrey
+
+(X) as dummy6 
+hide dummy6
+(5) as a6 #white;line:orange;line.bold;
+(5) as b6 #white;line:orange;line.bold;
+(3) as c6 #white;line:orange;line.bold;
+( ) as d6 #line:lightgrey
+( ) as e6 #line:lightgrey
+( ) as f6 #line:lightgrey
+( ) as g6 #line:lightgrey
+( ) as h6 #line:lightgrey
+( ) as i6 #line:lightgrey
+( ) as j6 #line:lightgrey
+
+(2) as a7 #white;line:orange;line.bold;
+( ) as b7 #line:lightgrey
+( ) as c7 #line:lightgrey
+( ) as d7 #line:lightgrey
+( ) as e7 #line:lightgrey
+( ) as f7 #line:lightgrey
+( ) as g7 #line:lightgrey
+( ) as h7 #line:lightgrey
+( ) as i7 #line:lightgrey
+( ) as j7 #line:lightgrey
+
+(X) as dummy8 
+hide dummy8
+( ) as a8 #line:lightgrey 
+( ) as b8 #line:lightgrey
+( ) as c8 #line:lightgrey
+( ) as d8 #line:lightgrey
+( ) as e8 #line:lightgrey
+(1) as f8 #white;line:orange;line.bold;
+( ) as g8 #line:lightgrey
+( ) as h8 #line:lightgrey
+( ) as i8 #line:lightgrey
+( ) as j8 #line:lightgrey
+
+' ---
+
+a1 - b1 #line:lightgrey 
+b1 - c1 #line:lightgrey 
+c1 - d1 #line:lightgrey
+d1 - e1 #line:lightgrey
+e1 - f1 #line:lightgrey
+f1 - g1 #line:lightgrey
+g1 - h1 #line:lightgrey
+h1 - i1 #line:lightgrey
+i1 - j1 #line:lightgrey
+
+dummy2-[hidden]a2 
+a1 -[hidden]d- dummy2
+dummy2 -[hidden]d- a3
+a2 - b2 #line:lightgrey
+b2 - c2 #line:lightgrey
+c2 - d2 #line:lightgrey
+d2 - e2 #line:lightgrey
+e2 - f2 #line:lightgrey
+f2 - g2 #line:lightgrey
+g2 - h2 #line:lightgrey
+h2 - i2 #line:lightgrey
+i2 - j2 #line:lightgrey
+
+a3 - b3 #line:lightgrey
+b3 - c3 #line:lightgrey
+c3 - d3 #line:lightgrey
+d3 - e3 #line:lightgrey
+e3 - f3 #line:lightgrey
+f3 - g3 #line:lightgrey
+g3 - h3 #line:lightgrey
+h3 - i3 #line:lightgrey
+i3 - j3 #line:lightgrey
+
+dummy4-[hidden]a4 
+a3 -[hidden]d- dummy4
+dummy4 -[hidden]d- a5
+a4 - b4 #line:lightgrey
+b4 - c4 #line:lightgrey
+c4 - d4 #line:lightgrey
+d4 - e4 #line:lightgrey
+e4 - f4 #line:lightgrey
+f4 - g4 #line:lightgrey
+g4 - h4 #line:lightgrey
+h4 - i4 #line:lightgrey
+i4 - j4 #line:lightgrey
+
+a5 - b5 #line:lightgrey
+b5 - c5 #line:lightgrey
+c5 - d5 #line:lightgrey
+d5 - e5 #line:lightgrey
+e5 - f5 #line:lightgrey
+f5 - g5 #line:lightgrey
+g5 - h5 #line:lightgrey
+h5 - i5 #line:lightgrey
+i5 - j5 #line:lightgrey
+
+dummy6-[hidden]a6 
+a5 -[hidden]d- dummy6
+dummy6 -[hidden]d- a7
+a6 - b6 #line:lightgrey
+b6 - c6 #line:lightgrey
+c6 - d6 #line:lightgrey
+d6 - e6 #line:lightgrey
+e6 - f6 #line:lightgrey
+f6 - g6 #line:lightgrey
+g6 - h6 #line:lightgrey
+h6 - i6 #line:lightgrey
+i6 - j6 #line:lightgrey
+
+a7 - b7 #line:lightgrey
+b7 - c7 #line:lightgrey
+c7 - d7 #line:lightgrey
+d7 - e7 #line:lightgrey
+e7 - f7 #line:lightgrey
+f7 - g7 #line:lightgrey
+g7 - h7 #line:lightgrey
+h7 - i7 #line:lightgrey
+i7 - j7 #line:lightgrey
+
+dummy8 -[hidden]a8
+a7 -[hidden]d- dummy8
+a8 - b8 #line:lightgrey
+b8 - c8 #line:lightgrey
+c8 - d8 #line:lightgrey
+d8 - e8 #line:lightgrey
+e8 - f8 #line:lightgrey
+f8 - g8 #line:lightgrey
+g8 - h8 #line:lightgrey
+h8 - i8 #line:lightgrey
+i8 - j8 #line:lightgrey
+
+' ---
+
+a1 -d- a2 #line:lightgrey
+b1 -d- b2 #line:lightgrey
+c1 -d- c2 #line:lightgrey
+d1 -d- d2 #line:lightgrey
+e1 -d- e2 #line:lightgrey
+f1 -d- f2 #line:lightgrey
+g1 -d- g2 #line:lightgrey
+h1 -d- h2 #line:lightgrey
+i1 -d- i2 #line:lightgrey
+j1 -d- j2 #line:lightgrey
+
+b1 -d- a2 #line:lightgrey
+c1 -d- b2 #line:lightgrey
+d1 -d- c2 #line:lightgrey
+e1 -d- d2 #line:lightgrey
+f1 -d- e2 #line:lightgrey
+g1 -d- f2 #line:lightgrey
+h1 -d- g2 #line:lightgrey
+i1 -d- h2 #line:lightgrey
+j1 -d- i2 #line:lightgrey
+
+a2 -d- a3 #line:lightgrey
+b2 -d- b3 #line:lightgrey
+c2 -d- c3 #line:lightgrey
+d2 -d- d3 #line:lightgrey
+e2 -d- e3 #line:lightgrey
+f2 -d- f3 #line:lightgrey
+g2 -d- g3 #line:lightgrey
+h2 -d- h3 #line:lightgrey
+i2 -d- i3 #line:lightgrey
+j2 -d- j3 #line:lightgrey
+
+a2 -d- b3 #line:lightgrey
+b2 -d- c3 #line:lightgrey
+c2 -d- d3 #line:lightgrey
+d2 -d- e3 #line:lightgrey
+e2 -d- f3 #line:lightgrey
+f2 -d- g3 #line:lightgrey
+g2 -d- h3 #line:lightgrey
+h2 -d- i3 #line:lightgrey
+i2 -d- j3 #line:lightgrey
+
+a3 -d- a4 #line:lightgrey
+b3 -d- b4 #line:lightgrey
+c3 -d- c4 #line:lightgrey
+d3 -d- d4 #line:lightgrey
+e3 -d- e4 #line:lightgrey
+f3 -d- f4 #line:lightgrey
+g3 -d- g4 #line:lightgrey
+h3 -d- h4 #line:lightgrey
+i3 -d- i4 #line:lightgrey
+j3 -d- j4 #line:lightgrey
+
+b3 -d- a4 #line:lightgrey
+c3 -d- b4 #line:lightgrey
+d3 -d- c4 #line:lightgrey
+e3 -d- d4 #line:lightgrey
+f3 -d- e4 #line:lightgrey
+g3 -d- f4 #line:lightgrey
+h3 -d- g4 #line:lightgrey
+i3 -d- h4 #line:lightgrey
+j3 -d- i4 #line:lightgrey
+
+a4 -d- a5 #line:lightgrey
+b4 -d- b5 #line:lightgrey
+c4 -d- c5 #line:lightgrey
+d4 -d- d5 #line:lightgrey
+e4 -d- e5 #line:lightgrey
+f4 -d- f5 #line:lightgrey
+g4 -d- g5 #line:lightgrey
+h4 -d- h5 #line:lightgrey
+i4 -d- i5 #line:lightgrey
+j4 -d- j5 #line:lightgrey
+
+a4 -d- b5 #line:lightgrey
+b4 -d- c5 #line:lightgrey
+c4 -d- d5 #line:lightgrey
+d4 -d- e5 #line:lightgrey
+e4 -d- f5 #line:lightgrey
+f4 -d- g5 #line:lightgrey
+g4 -d- h5 #line:lightgrey
+h4 -d- i5 #line:lightgrey
+i4 -d- j5 #line:lightgrey
+
+a5 -d- a6 #line:lightgrey
+b5 -d- b6 #line:lightgrey
+c5 -d- c6 #line:lightgrey
+d5 -d- d6 #line:lightgrey
+e5 -d- e6 #line:lightgrey
+f5 -d- f6 #line:lightgrey
+g5 -d- g6 #line:lightgrey
+h5 -d- h6 #line:lightgrey
+i5 -d- i6 #line:lightgrey
+j5 -d- j6 #line:lightgrey
+
+b5 -d- a6 #line:lightgrey
+c5 -d- b6 #line:lightgrey
+d5 -d- c6 #line:lightgrey
+e5 -d- d6 #line:lightgrey
+f5 -d- e6 #line:lightgrey
+g5 -d- f6 #line:lightgrey
+h5 -d- g6 #line:lightgrey
+i5 -d- h6 #line:lightgrey
+j5 -d- i6 #line:lightgrey
+
+a6 -d- a7 #line:lightgrey
+b6 -d- b7 #line:lightgrey
+c6 -d- c7 #line:lightgrey
+d6 -d- d7 #line:lightgrey
+e6 -d- e7 #line:lightgrey
+f6 -d- f7 #line:lightgrey
+g6 -d- g7 #line:lightgrey
+h6 -d- h7 #line:lightgrey
+i6 -d- i7 #line:lightgrey
+j6 -d- j7 #line:lightgrey
+
+a6 -d- b7 #line:lightgrey
+b6 -d- c7 #line:lightgrey
+c6 -d- d7 #line:lightgrey
+d6 -d- e7 #line:lightgrey
+e6 -d- f7 #line:lightgrey
+f6 -d- g7 #line:lightgrey
+g6 -d- h7 #line:lightgrey
+h6 -d- i7 #line:lightgrey
+i6 -d- j7 #line:lightgrey
+
+a7 -d- a8 #line:lightgrey
+b7 -d- b8 #line:lightgrey
+c7 -d- c8 #line:lightgrey
+d7 -d- d8 #line:lightgrey
+e7 -d- e8 #line:lightgrey
+f7 -d- f8 #line:lightgrey
+g7 -d- g8 #line:lightgrey
+h7 -d- h8 #line:lightgrey
+i7 -d- i8 #line:lightgrey
+j7 -d- j8 #line:lightgrey
+
+b7 -d- a8 #line:lightgrey
+c7 -d- b8 #line:lightgrey
+d7 -d- c8 #line:lightgrey
+e7 -d- d8 #line:lightgrey
+f7 -d- e8 #line:lightgrey
+g7 -d- f8 #line:lightgrey
+h7 -d- g8 #line:lightgrey
+i7 -d- h8 #line:lightgrey
+j7 -d- i8 #line:lightgrey
+ 
+
+
+
+@enduml

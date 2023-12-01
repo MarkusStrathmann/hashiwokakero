@@ -1,0 +1,64 @@
+@startuml
+
+class Graph {
+    + <<create>> Graph(int [])
+    - weightMatrix: int [] []
+    - nodeMatrix Node [] []
+    +initializeGraph():void
+    +solveGraph():void
+    +showInfo():void
+}
+together {
+class Node {
+    + <<create>> Node()
+    - name: String
+    - actualWeight: int
+    - targetWeight: final int
+    - connectedEdges: Edge []
+    - neighborNodes: Node []
+    + getName(): String
+    + getActualWeight(): int
+    + getTargetWeight(): int
+    + getConnectedEdges(): Edge []
+    + getNeighborNode(int): Node [] 
+    + getNeighborNodes(): Node [] 
+    + setName(String): void
+    + setActualWeight(int): void
+    + setTargetWeight(int): void
+    + setConnectedEdges(Edge []): void
+    + setNeighborNode(int, Node []):void
+    + setNeighborNodes(Node []):void
+}
+class Edge {
+    + <<create>> Edge()
+    - name: String
+    - nBridges: int
+    - edgesInPath: Edge []
+    - connectedNodes: Node []
+    + getName(): String
+    + getNBriges(): int
+    + getEdgesInPath(): Edge []
+    + getConnectedNodes(): Node []
+    + setName(String): void
+    + setNBrigdes(int): void
+    + setEdgesInPath(Edge []): void
+    + setConnectedNodes(Node []): void
+
+}
+}
+class Main {
+
+}
+Main ..|> Graph
+Edge <|...|> Graph
+Graph <|...|> Node
+Node  <|...|>  Edge
+Node "2" -- "1-6" Edge
+Graph "1" -- "*" Node
+Edge "*" -- "1" Graph
+
+' - private
+' + publix
+' # protected
+' https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/
+@enduml
