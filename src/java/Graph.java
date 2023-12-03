@@ -229,26 +229,13 @@ public class Graph {
     }
 
     private int invertDir(int direction) {
-        int invertedDir = 0;
-        switch (direction) {
-            case 0:
-                invertedDir = 3;
-                break;
-            case 1:
-                invertedDir = 4;
-                break;
-            case 2:
-                invertedDir = 5;
-                break;
-            case 3:
-                invertedDir = 0;
-                break;
-            case 4:
-                invertedDir = 1;
-                break;
-            case 5:
-                invertedDir = 2;
-                break;
+        int invertedDir;
+        if (direction >= 0 && direction < 3){
+            invertedDir = direction +3;
+        }else if (direction >3 && direction <= 5){
+            invertedDir = direction -3;
+        } else {
+            throw new IllegalArgumentException("Direction must be between 0 and 5 but is " + direction);
         }
         return invertedDir;
     }
