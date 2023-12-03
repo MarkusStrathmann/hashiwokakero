@@ -10,7 +10,7 @@ First we need a puzzle that we want to solve. The following illustration shows a
 
 
 <p align="center">
-    <img width="700" src="./src/doc/img/example_puzzle.png">
+    <img width="700" src="./doc/img/example_puzzle.png">
 </p>
 
 Now that we have found a fresh, unsolved puzzle, the next step is to convert the weights of the islands into a matrix. To do this, we open the file ./src/java/Main.java and adapt the weight matrix of the main method according to the puzzle to be solved. It is important to note that every second row is indented half a position to the right. The first row is accordingly never indented, the last row may be indented or not. 
@@ -44,7 +44,7 @@ graph.plotGraph();
 Now that we have completely adapted the main method to our example puzzle, we can start the program by running the main method. For our example puzzle we get the following output:
 
 <p align="center">
-        <img width="700" src="./src/doc/img/example_puzzle_console_output.png">
+        <img width="700" src="./doc/img/example_puzzle_console_output.png">
 </p>
 
 We're lucky - the puzzle has been completely solved. Yellow edges indicate a single bridge connection, red edges indicate a double bridge connection and blue edges indicate a bridge connection that has been extended via unused nodes. 
@@ -52,7 +52,7 @@ Analogous to the unsolved puzzle, the following solution results for the output 
 
 
 <p align="center">
-  <img width="700" src="./src/doc/img/example_puzzle_solved.png">
+  <img width="700" src="./doc/img/example_puzzle_solved.png">
 </p>
 
 The numbers on the edges indicate whether a bridge connection is single or double. If we add up the outgoing bridge connections on each island, we get exactly their target value. So the puzzle has indeed been solved correctly.
