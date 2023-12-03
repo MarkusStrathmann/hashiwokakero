@@ -31,7 +31,14 @@ public class Node {
     }
 
     public void setActualWeight(int actualWeight) {
-        this.actualWeight = actualWeight;
+        if (actualWeight > getTargetWeight()) {
+            throw new IllegalArgumentException("Argument must not be greater than targetWeight(" + getTargetWeight()
+                    + ") but is " + actualWeight + "!");
+        } else if (actualWeight < 0) {
+            throw new IllegalArgumentException("Argument must not be smaller than 0 but is " + actualWeight + "!");
+        } else {
+            this.actualWeight = actualWeight;
+        }
     }
 
     public int getTargetWeight() {
@@ -39,7 +46,14 @@ public class Node {
     }
 
     public void setTargetWeight(int targetWeight) {
-        this.targetWeight = targetWeight;
+        if (targetWeight < getActualWeight()) {
+            throw new IllegalArgumentException("Argument must not be smaller than actualWeight(" + getActualWeight()
+                    + ") but is " + targetWeight + "!");
+        } else if (targetWeight < 0) {
+            throw new IllegalArgumentException("Argument must not be smaller than 0 but is " + targetWeight + "!");
+        } else {
+            this.targetWeight = targetWeight;
+        }
     }
 
     public Edge getConnectedEdge(int direction) {
@@ -50,12 +64,21 @@ public class Node {
         return connectedEdges;
     }
 
-    public void setConnectedEdge(int direction, Edge connectedEdge) {
-        this.connectedEdges[direction] = connectedEdge;
+    public void setConnectedEdge(int direction, Edge edge) {
+        if (direction < 0 || direction > 5) {
+            throw new IllegalArgumentException("First argument must be between 0 and 5 but is " + direction + "!");
+        } else {
+            this.connectedEdges[direction] = edge;
+        }
     }
 
-    public void setConnectedEdges(Edge[] connectedEdges) {
-        this.connectedEdges = connectedEdges;
+    public void setConnectedEdges(Edge[] edges) {
+        if (edges.length != 6) {
+            throw new IllegalArgumentException(
+                    "Argument must contain 6 edges but contains " + edges.length + "!");
+        } else {
+            this.connectedEdges = edges;
+        }
     }
 
     public Node getNeighborNode(int direction) {
@@ -66,12 +89,21 @@ public class Node {
         return neighborNodes;
     }
 
-    public void setNeighborNode(int direction, Node neighborNode) {
-        this.neighborNodes[direction] = neighborNode;
+    public void setNeighborNode(int direction, Node node) {
+        if (direction < 0 || direction > 5) {
+            throw new IllegalArgumentException("First argument must be between 0 and 5 but is " + direction + "!");
+        } else {
+            this.neighborNodes[direction] = node;
+        }
     }
 
-    public void setNeighborNodes(Node[] neighborNodes) {
-        this.neighborNodes = neighborNodes;
+    public void setNeighborNodes(Node[] nodes) {
+        if (nodes.length != 6) {
+            throw new IllegalArgumentException(
+                    "Argument must contain 6 nodes but contains " + nodes.length + "!");
+        } else {
+            this.neighborNodes = nodes;
+        }
     }
 
     public int getNConnectedEdges() {
@@ -131,10 +163,18 @@ public class Node {
     }
 
     public void incrementActualWeight() {
+        if (getActualWeight() >= getTargetWeight()){
+            throw new IllegalStateException("Unable to increment actualWeight. ActualWeight must be smaller than targetWeight ("+ getTargetWeight() +") but is " + getActualWeight() + "!");
+        } else {
         this.actualWeight++;
+        }
     }
 
     public void decrementActualWeight() {
+        if (getActualWeight() <=0){
+            throw new IllegalStateException("Unable to decrement actualWeight. ActualWeight must be greater than 0 but is " + getActualWeight() + "!");
+        } else {
         this.actualWeight--;
+        }
     }
 }

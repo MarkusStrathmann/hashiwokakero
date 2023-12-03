@@ -35,34 +35,40 @@ public class Graph {
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_WHITE = "\u001B[90m";
 
-
     private void initializeGraph() {
-        for (int row = 0; row < nRowWeightMatrix; row++) {
-            for (int col = 0; col < nColWeightMatrix; col++) {
-                nodeMatrix[row][col] = new Node();
-                nodeMatrix[row][col].setName("N-" + String.format("%03d", ++nodeNumber));
-            }
-        }
-        boolean indented;
-
-        for (int row = 0; row < nRowWeightMatrix; row++) {
-            for (int col = 0; col < nColWeightMatrix; col++) {
-                nodeMatrix[row][col].setTargetWeight(weightMatrix[row][col]);
-                if ((row + 1) % 2 == 0) {
-                    indented = true;
-                } else {
-                    indented = false;
+        if (nRowWeightMatrix <= 1 || nColWeightMatrix <= 1) {
+            throw new IllegalStateException(
+                    "Unable to initialize graph. NRowWeightMatrix and nColweightMatrix must both be at least 2 but are "
+                            + nRowWeightMatrix + " and " + nColWeightMatrix + "!");
+        } else {
+            for (int row = 0; row < nRowWeightMatrix; row++) {
+                for (int col = 0; col < nColWeightMatrix; col++) {
+                    nodeMatrix[row][col] = new Node();
+                    nodeMatrix[row][col].setName("N-" + String.format("%03d", ++nodeNumber));
                 }
+            }
+            boolean indented;
 
-                nodeMatrix[row][col].setConnectedEdges(connectEdges(row, col, indented));
-                graph.add(nodeMatrix[row][col]);
+            for (int row = 0; row < nRowWeightMatrix; row++) {
+                for (int col = 0; col < nColWeightMatrix; col++) {
+                    nodeMatrix[row][col].setTargetWeight(weightMatrix[row][col]);
+                    if ((row + 1) % 2 == 0) {
+                        indented = true;
+                    } else {
+                        indented = false;
+                    }
+
+                    nodeMatrix[row][col].setConnectedEdges(connectEdges(row, col, indented));
+                    graph.add(nodeMatrix[row][col]);
+                }
             }
         }
     }
 
     public void showNodeInfo() {
         System.out.println("");
-        System.out.println("nodeName | actualWeight/targetWeight | connectedEdges (in direction 0 to 5) | nPossibleBridges");
+        System.out.println(
+                "nodeName | actualWeight/targetWeight | connectedEdges (in direction 0 to 5) | nPossibleBridges");
         String infoString = new String();
         for (Node node : graph) {
             infoString = node.getName() + " | " + node.getActualWeight() + "/" + node.getTargetWeight() + " | ";
@@ -80,7 +86,8 @@ public class Graph {
 
     public void showEdgeInfo() {
         String nodesInPath = "";
-        System.out.println("edge name | nBridges+nPossibleBridges | names of connected nodes | intermediate nodes (for extended edges only)");
+        System.out.println(
+                "edge name | nBridges+nPossibleBridges | names of connected nodes | intermediate nodes (for extended edges only)");
         for (Edge edge : edges) {
             nodesInPath = " ";
             if (edge.getNodesInPath() != null) {
@@ -89,8 +96,8 @@ public class Graph {
                 }
             }
             System.out.println(edge.getName() + " | " + edge.getnBridges() + "+" + edge.getNPossibleBridges() + " | " +
-                    edge.getconnectedNodes()[0].getName()
-                    + " to " + edge.getconnectedNodes()[1].getName() + " | (" + nodesInPath + ")");
+                    edge.getConnectedNodes()[0].getName()
+                    + " to " + edge.getConnectedNodes()[1].getName() + " | (" + nodesInPath + ")");
         }
     }
 
@@ -189,9 +196,9 @@ public class Graph {
             for (int dir = 0; dir < 6; dir++) {
                 if (node.getConnectedEdge(dir) != null) {
                     if (dir == 0 || dir == 1 || dir == 5) {
-                        node.setNeighborNode(dir, node.getConnectedEdge(dir).getconnectedNodes()[0]);
+                        node.setNeighborNode(dir, node.getConnectedEdge(dir).getConnectedNodes()[0]);
                     } else {
-                        node.setNeighborNode(dir, node.getConnectedEdge(dir).getconnectedNodes()[1]);
+                        node.setNeighborNode(dir, node.getConnectedEdge(dir).getConnectedNodes()[1]);
                     }
                 }
             }
@@ -230,12 +237,12 @@ public class Graph {
 
     private int invertDir(int direction) {
         int invertedDir;
-        if (direction >= 0 && direction < 3){
-            invertedDir = direction +3;
-        }else if (direction >3 && direction <= 5){
-            invertedDir = direction -3;
+        if (direction >= 0 && direction < 3) {
+            invertedDir = direction + 3;
+        } else if (direction >= 3 && direction <= 5) {
+            invertedDir = direction - 3;
         } else {
-            throw new IllegalArgumentException("Direction must be between 0 and 5 but is " + direction);
+            throw new IllegalArgumentException("Argument must be between 0 and 5 but is " + direction + "!");
         }
         return invertedDir;
     }
@@ -487,138 +494,143 @@ public class Graph {
     }
 
     public void plotGraph() {
-        int targetWeight;
-        Node node;
-        boolean oddRow;
-        String midLayerA = "";
-        String midLayerB = "";
-        String midLayerC = "";
-        Vector<Node> wayPointsV = new Vector<Node>();
-        Vector<Node> wayPointsD = new Vector<Node>();
-        Vector<Node> wayPointsI = new Vector<Node>();
-        for (int row = 0; row < nRowWeightMatrix; row++) {
-            if (row % 2 != 0) {
-                midLayerA = " ";
-                midLayerB = " ";
-                midLayerC = " ";
-                oddRow = true;
-                System.out.print("     ");
-            } else {
-                oddRow = false;
-                midLayerA = " ";
-                midLayerB = " ";
-                midLayerC = " ";
-            }
-            ;
-            for (int col = 0; col < nColWeightMatrix; col++) {
-                node = nodeMatrix[row][col];
-                targetWeight = node.getTargetWeight();
-                if (targetWeight < 10) {
-                    System.out.print(" " + targetWeight);
+        if (nRowWeightMatrix <= 0 || nColWeightMatrix <= 0) {
+            throw new IllegalStateException(
+                    "Unable to plot graph. NRowWeightMatrix and nColweightMatrix must both be at least 2 but are "
+                            + nRowWeightMatrix + " and " + nColWeightMatrix + "!");
+        } else {
+            int targetWeight;
+            Node node;
+            boolean oddRow;
+            String midLayerA = "";
+            String midLayerB = "";
+            String midLayerC = "";
+            Vector<Node> wayPointsV = new Vector<Node>();
+            Vector<Node> wayPointsD = new Vector<Node>();
+            Vector<Node> wayPointsI = new Vector<Node>();
+            for (int row = 0; row < nRowWeightMatrix; row++) {
+                if (row % 2 != 0) {
+                    midLayerA = " ";
+                    midLayerB = " ";
+                    midLayerC = " ";
+                    oddRow = true;
+                    System.out.print("     ");
                 } else {
-                    System.out.print(targetWeight);
+                    oddRow = false;
+                    midLayerA = " ";
+                    midLayerB = " ";
+                    midLayerC = " ";
                 }
-
-                // dir 1|4
-                if (node.getConnectedEdge(4) != null && node.getConnectedEdge(4).getnBridges() == 1) {
-                    System.out.print(ANSI_YELLOW + "  — — — " + ANSI_RESET);
-                    if (node.getConnectedEdge(4).getName().contains("x")) {
-                        for (Node wayPoint : node.getConnectedEdge(4).getNodesInPath()) {
-                            wayPointsV.add(wayPoint);
-                        }
+                ;
+                for (int col = 0; col < nColWeightMatrix; col++) {
+                    node = nodeMatrix[row][col];
+                    targetWeight = node.getTargetWeight();
+                    if (targetWeight < 10) {
+                        System.out.print(" " + targetWeight);
+                    } else {
+                        System.out.print(targetWeight);
                     }
-                } else if (node.getConnectedEdge(4) != null && node.getConnectedEdge(4).getnBridges() == 2) {
-                    System.out.print(ANSI_RED + "  — — — " + ANSI_RESET);
-                    if (node.getConnectedEdge(4).getName().contains("x")) {
-                        for (Node wayPoint : node.getConnectedEdge(4).getNodesInPath()) {
-                            wayPointsV.add(wayPoint);
-                        }
-                    }
-                } else if (wayPointsV.contains(node)) {
-                    System.out.print(ANSI_BLUE + "  — — — " + ANSI_RESET);
-                    wayPointsV.remove(node);
-                } else if (col != nColWeightMatrix - 1) {
-                    System.out.print(ANSI_WHITE + "  — — — " + ANSI_RESET);
-                }
 
-                // dir 2|5
-                if (oddRow || col != 0) {
-                    if (node.getConnectedEdge(2) != null && node.getConnectedEdge(2).getnBridges() == 1) {
-                        midLayerA = midLayerA + ANSI_YELLOW + "   / " + ANSI_RESET;
-                        midLayerB = midLayerB + ANSI_YELLOW + "  /  " + ANSI_RESET;
-                        midLayerC = midLayerC + ANSI_YELLOW + " /   " + ANSI_RESET;
-                        if (node.getConnectedEdge(2).getName().contains("x")) {
-                            for (Node wayPoint : node.getConnectedEdge(2).getNodesInPath()) {
-                                wayPointsI.add(wayPoint);
+                    // dir 1|4
+                    if (node.getConnectedEdge(4) != null && node.getConnectedEdge(4).getnBridges() == 1) {
+                        System.out.print(ANSI_YELLOW + "  — — — " + ANSI_RESET);
+                        if (node.getConnectedEdge(4).getName().contains("x")) {
+                            for (Node wayPoint : node.getConnectedEdge(4).getNodesInPath()) {
+                                wayPointsV.add(wayPoint);
                             }
                         }
-                    } else if (node.getConnectedEdge(2) != null && node.getConnectedEdge(2).getnBridges() == 2) {
-                        midLayerA = midLayerA + ANSI_RED + "   / " + ANSI_RESET;
-                        midLayerB = midLayerB + ANSI_RED + "  /  " + ANSI_RESET;
-                        midLayerC = midLayerC + ANSI_RED + " /   " + ANSI_RESET;
-                        if (node.getConnectedEdge(2).getName().contains("x")) {
-                            for (Node wayPoint : node.getConnectedEdge(2).getNodesInPath()) {
-                                wayPointsI.add(wayPoint);
+                    } else if (node.getConnectedEdge(4) != null && node.getConnectedEdge(4).getnBridges() == 2) {
+                        System.out.print(ANSI_RED + "  — — — " + ANSI_RESET);
+                        if (node.getConnectedEdge(4).getName().contains("x")) {
+                            for (Node wayPoint : node.getConnectedEdge(4).getNodesInPath()) {
+                                wayPointsV.add(wayPoint);
                             }
                         }
-                    } else if (wayPointsI.contains(node)) {
-                        midLayerA = midLayerA + ANSI_BLUE + "   / " + ANSI_RESET;
-                        midLayerB = midLayerB + ANSI_BLUE + "  /  " + ANSI_RESET;
-                        midLayerC = midLayerC + ANSI_BLUE + " /   " + ANSI_RESET;
+                    } else if (wayPointsV.contains(node)) {
+                        System.out.print(ANSI_BLUE + "  — — — " + ANSI_RESET);
+                        wayPointsV.remove(node);
+                    } else if (col != nColWeightMatrix - 1) {
+                        System.out.print(ANSI_WHITE + "  — — — " + ANSI_RESET);
+                    }
+
+                    // dir 2|5
+                    if (oddRow || col != 0) {
+                        if (node.getConnectedEdge(2) != null && node.getConnectedEdge(2).getnBridges() == 1) {
+                            midLayerA = midLayerA + ANSI_YELLOW + "   / " + ANSI_RESET;
+                            midLayerB = midLayerB + ANSI_YELLOW + "  /  " + ANSI_RESET;
+                            midLayerC = midLayerC + ANSI_YELLOW + " /   " + ANSI_RESET;
+                            if (node.getConnectedEdge(2).getName().contains("x")) {
+                                for (Node wayPoint : node.getConnectedEdge(2).getNodesInPath()) {
+                                    wayPointsI.add(wayPoint);
+                                }
+                            }
+                        } else if (node.getConnectedEdge(2) != null && node.getConnectedEdge(2).getnBridges() == 2) {
+                            midLayerA = midLayerA + ANSI_RED + "   / " + ANSI_RESET;
+                            midLayerB = midLayerB + ANSI_RED + "  /  " + ANSI_RESET;
+                            midLayerC = midLayerC + ANSI_RED + " /   " + ANSI_RESET;
+                            if (node.getConnectedEdge(2).getName().contains("x")) {
+                                for (Node wayPoint : node.getConnectedEdge(2).getNodesInPath()) {
+                                    wayPointsI.add(wayPoint);
+                                }
+                            }
+                        } else if (wayPointsI.contains(node)) {
+                            midLayerA = midLayerA + ANSI_BLUE + "   / " + ANSI_RESET;
+                            midLayerB = midLayerB + ANSI_BLUE + "  /  " + ANSI_RESET;
+                            midLayerC = midLayerC + ANSI_BLUE + " /   " + ANSI_RESET;
+                            wayPointsI.remove(node);
+                        } else if (row != nRowWeightMatrix - 1) {
+                            midLayerA = midLayerA + ANSI_WHITE + "   / " + ANSI_RESET;
+                            midLayerB = midLayerB + ANSI_WHITE + "  /  " + ANSI_RESET;
+                            midLayerC = midLayerC + ANSI_WHITE + " /   " + ANSI_RESET;
+                        }
+                    }
+
+                    // dir 0|3
+                    if (node.getConnectedEdge(3) != null && node.getConnectedEdge(3).getnBridges() == 1) {
+                        midLayerA = midLayerA + ANSI_YELLOW + " \\   " + ANSI_RESET;
+                        midLayerB = midLayerB + ANSI_YELLOW + "  \\  " + ANSI_RESET;
+                        midLayerC = midLayerC + ANSI_YELLOW + "   \\ " + ANSI_RESET;
+                        if (node.getConnectedEdge(3).getName().contains("x")) {
+                            for (Node wayPoint : node.getConnectedEdge(3).getNodesInPath()) {
+                                wayPointsD.add(wayPoint);
+                            }
+                        }
+                    } else if (node.getConnectedEdge(3) != null && node.getConnectedEdge(3).getnBridges() == 2) {
+                        midLayerA = midLayerA + ANSI_RED + " \\   " + ANSI_RESET;
+                        midLayerB = midLayerB + ANSI_RED + "  \\  " + ANSI_RESET;
+                        midLayerC = midLayerC + ANSI_RED + "   \\ " + ANSI_RESET;
+                        if (node.getConnectedEdge(3).getName().contains("x")) {
+                            for (Node wayPoint : node.getConnectedEdge(3).getNodesInPath()) {
+                                wayPointsD.add(wayPoint);
+                            }
+                        }
+                    } else if (wayPointsD.contains(node)) {
+                        midLayerA = midLayerA + ANSI_BLUE + " \\   " + ANSI_RESET;
+                        midLayerB = midLayerB + ANSI_BLUE + "  \\  " + ANSI_RESET;
+                        midLayerC = midLayerC + ANSI_BLUE + "   \\ " + ANSI_RESET;
                         wayPointsI.remove(node);
-                    } else if (row != nRowWeightMatrix - 1) {
-                        midLayerA = midLayerA + ANSI_WHITE + "   / " + ANSI_RESET;
-                        midLayerB = midLayerB + ANSI_WHITE + "  /  " + ANSI_RESET;
-                        midLayerC = midLayerC + ANSI_WHITE + " /   " + ANSI_RESET;
+                    } else if (row != nRowWeightMatrix - 1 && !(oddRow && col == nColWeightMatrix - 1)) {
+                        midLayerA = midLayerA + ANSI_WHITE + " \\   " + ANSI_RESET;
+                        midLayerB = midLayerB + ANSI_WHITE + "  \\  " + ANSI_RESET;
+                        midLayerC = midLayerC + ANSI_WHITE + "   \\ " + ANSI_RESET;
                     }
                 }
-
-                // dir 0|3
-                if (node.getConnectedEdge(3) != null && node.getConnectedEdge(3).getnBridges() == 1) {
-                    midLayerA = midLayerA + ANSI_YELLOW + " \\   " + ANSI_RESET;
-                    midLayerB = midLayerB + ANSI_YELLOW + "  \\  " + ANSI_RESET;
-                    midLayerC = midLayerC + ANSI_YELLOW + "   \\ " + ANSI_RESET;
-                    if (node.getConnectedEdge(3).getName().contains("x")) {
-                        for (Node wayPoint : node.getConnectedEdge(3).getNodesInPath()) {
-                            wayPointsD.add(wayPoint);
-                        }
-                    }
-                } else if (node.getConnectedEdge(3) != null && node.getConnectedEdge(3).getnBridges() == 2) {
-                    midLayerA = midLayerA + ANSI_RED + " \\   " + ANSI_RESET;
-                    midLayerB = midLayerB + ANSI_RED + "  \\  " + ANSI_RESET;
-                    midLayerC = midLayerC + ANSI_RED + "   \\ " + ANSI_RESET;
-                    if (node.getConnectedEdge(3).getName().contains("x")) {
-                        for (Node wayPoint : node.getConnectedEdge(3).getNodesInPath()) {
-                            wayPointsD.add(wayPoint);
-                        }
-                    }
-                } else if (wayPointsD.contains(node)) {
-                    midLayerA = midLayerA + ANSI_BLUE + " \\   " + ANSI_RESET;
-                    midLayerB = midLayerB + ANSI_BLUE + "  \\  " + ANSI_RESET;
-                    midLayerC = midLayerC + ANSI_BLUE + "   \\ " + ANSI_RESET;
-                    wayPointsI.remove(node);
-                } else if (row != nRowWeightMatrix - 1 && !(oddRow && col == nColWeightMatrix - 1)) {
-                    midLayerA = midLayerA + ANSI_WHITE + " \\   " + ANSI_RESET;
-                    midLayerB = midLayerB + ANSI_WHITE + "  \\  " + ANSI_RESET;
-                    midLayerC = midLayerC + ANSI_WHITE + "   \\ " + ANSI_RESET;
+                System.out.println("");
+                if (oddRow) {
+                    System.out.println(midLayerA);
+                    System.out.println(midLayerB);
+                    System.out.println(midLayerC);
+                } else {
+                    System.out.println(midLayerA);
+                    System.out.println(midLayerB);
+                    System.out.println(midLayerC);
                 }
             }
+            System.out.println("Legend:");
+            System.out.println(ANSI_YELLOW + "####" + ANSI_RESET + " single bridge");
+            System.out.println(ANSI_RED + "####" + ANSI_RESET + " double bridge");
+            System.out.println(ANSI_BLUE + "####" + ANSI_RESET + " extended bridge");
             System.out.println("");
-            if (oddRow) {
-                System.out.println(midLayerA);
-                System.out.println(midLayerB);
-                System.out.println(midLayerC);
-            } else {
-                System.out.println(midLayerA);
-                System.out.println(midLayerB);
-                System.out.println(midLayerC);
-            }
         }
-        System.out.println("Legend:");
-        System.out.println(ANSI_YELLOW + "####" + ANSI_RESET + " single bridge");
-        System.out.println(ANSI_RED + "####" + ANSI_RESET + " double bridge");
-        System.out.println(ANSI_BLUE + "####" + ANSI_RESET + " extended bridge");
-        System.out.println("");
     }
-
 }

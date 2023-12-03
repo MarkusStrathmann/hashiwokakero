@@ -29,7 +29,11 @@ public class Edge {
     }
 
     public void setnBridges(int nBridges) {
-        this.nBridges = nBridges;
+        if (nBridges < 0 || nBridges > 2) {
+            throw new IllegalArgumentException("Argument must be between 0 and 2 but is " + nBridges + "!");
+        } else {
+            this.nBridges = nBridges;
+        }
     }
 
     public Vector<Node> getNodesInPath() {
@@ -37,22 +41,15 @@ public class Edge {
     }
 
     public void setŃodesInPath(Vector<Node> nodesInPath) {
-        this.nodesInPath.clear();
-        for (Node node : nodesInPath) {
-            this.nodesInPath.add(node);
+        if (nodesInPath.size() == 0) {
+            throw new IllegalArgumentException(
+                    "Argument must contain at least one node but contains " + nodesInPath.size() + "!");
+        } else {
+            this.nodesInPath.clear();
+            for (Node node : nodesInPath) {
+                this.nodesInPath.add(node);
+            }
         }
-    }
-
-    public Node[] getconnectedNodes() {
-        return connectedNodes;
-    }
-
-    public void setconnectedNodes(Node[] connectedNodes) {
-        this.connectedNodes = connectedNodes;
-    }
-
-    public void setNodesInPath(Vector<Node> nodesInPath) {
-        this.nodesInPath = nodesInPath;
     }
 
     public Node[] getConnectedNodes() {
@@ -60,10 +57,18 @@ public class Edge {
     }
 
     public void setConnectedNodes(Node[] connectedNodes) {
-        this.connectedNodes = connectedNodes;
+        if (connectedNodes.length != 6) {
+            throw new IllegalArgumentException(
+                    "Argument must contain 6 nodes but contains " + connectedNodes.length + "!");
+        } else {
+            this.connectedNodes = connectedNodes;
+        }
     }
 
     public void setNPossibleBridges(int nPossibleBridges) {
+        if(nPossibleBridges < 0 || nPossibleBridges > 2){
+            throw new IllegalArgumentException("Argument must be between 0 and to but is " + nPossibleBridges + "!");
+        }
         this.nPossibleBridges = nPossibleBridges;
     }
 
@@ -79,10 +84,14 @@ public class Edge {
     }
 
     public void incrementNBridges() {
-        this.nBridges++;
-        this.nPossibleBridges--;
-        this.connectedNodes[0].incrementActualWeight();
-        this.connectedNodes[1].incrementActualWeight();
+        if (getnBridges() > 1 || getnBridges() < 0){
+            throw new IllegalStateException("Unable to increment nBridges. NBridges must be either 0 or 1 but is " + getNPossibleBridges() + "!");
+        } else {
+            this.nBridges++;
+            this.nPossibleBridges--;
+            this.connectedNodes[0].incrementActualWeight();
+            this.connectedNodes[1].incrementActualWeight();
+        }
     }
 
     public void blockCrossingEdges(Vector<Edge> edges) {

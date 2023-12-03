@@ -1,5 +1,7 @@
 package src.java;
 
+import java.util.Vector;
+
 /**
  * main
  */
@@ -15,10 +17,10 @@ public class Main {
                         {2,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,1,0,0,0,0}
                 };
-               
                 Graph graph = new Graph(weightMatrix);
                 graph.solveGraph();
                 graph.plotGraph();
+
                 // graph.showEdgeInfo(); // show edge info
                 // graph.showNodeInfo(); // show node info
         }
