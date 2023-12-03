@@ -12,14 +12,12 @@ public class Node {
         setNeighborNodes(node.getNeighborNodes());
     };
 
-    // variables
-    String name;
-    int actualWeight = 0;
-    int targetWeight;
-    Edge[] connectedEdges = new Edge[6]; // index 0-5 shows direction
-    Node[] neighborNodes = new Node[6]; // index 0-5 shows direction
+    private String name;
+    private int actualWeight = 0;
+    private int targetWeight;
+    private Edge[] connectedEdges = new Edge[6]; // index 0-5 shows direction
+    private Node[] neighborNodes = new Node[6]; // index 0-5 shows direction
 
-    // getter and setter
     public String getName() {
         return name;
     }
@@ -132,7 +130,6 @@ public class Node {
         return nFunnyEdges;
     }
 
-    // methods
     public void incrementActualWeight() {
         this.actualWeight++;
     }

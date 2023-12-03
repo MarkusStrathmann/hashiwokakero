@@ -19,28 +19,22 @@ public class Graph {
         cleanGraph();
     }
 
-    // variables
-    int nodeNumber = 0;
-    int edgeNumber = 0;
-    int[][] weightMatrix;
-    Node[][] nodeMatrix;
-    int nRowWeightMatrix;
-    int nColWeightMatrix;
-    Vector<Node> graph = new Vector<Node>();
-    Vector<Edge> edges = new Vector<Edge>();
+    private int nodeNumber = 0;
+    private int edgeNumber = 0;
+    private int[][] weightMatrix;
+    private Node[][] nodeMatrix;
+    private int nRowWeightMatrix;
+    private int nColWeightMatrix;
+    private Vector<Node> graph = new Vector<Node>();
+    private Vector<Edge> edges = new Vector<Edge>();
 
     // colors
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[90m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_WHITE = "\u001B[90m";
 
-    // methods
 
     private void initializeGraph() {
         for (int row = 0; row < nRowWeightMatrix; row++) {
@@ -67,23 +61,26 @@ public class Graph {
     }
 
     public void showNodeInfo() {
+        System.out.println("");
+        System.out.println("nodeName | actualWeight/targetWeight | connectedEdges (in direction 0 to 5) | nPossibleBridges");
         String infoString = new String();
         for (Node node : graph) {
-            infoString = node.getName() + " " + node.getActualWeight() + "/" + node.getTargetWeight() + " ";
+            infoString = node.getName() + " | " + node.getActualWeight() + "/" + node.getTargetWeight() + " | ";
             for (int dir = 0; dir < 6; dir++) {
-                if (node.connectedEdges[dir] != null) {
-                    infoString = infoString + "(" + dir + ")" + node.connectedEdges[dir].getName() + " ";
+                if (node.getConnectedEdge(dir) != null) {
+                    infoString = infoString + "(" + dir + ") " + node.getConnectedEdge(dir).getName() + " ";
                 } else {
-                    infoString = infoString + "(" + dir + ")" + "null" + " ";
+                    infoString = infoString + "(" + dir + ") " + "null" + " ";
                 }
             }
-            infoString = infoString + " pB: " + node.getNPossibleBridges();
+            infoString = infoString + "  | nPB: " + node.getNPossibleBridges();
             System.out.println(infoString);
         }
     }
 
     public void showEdgeInfo() {
         String nodesInPath = "";
+        System.out.println("edge name | nBridges+nPossibleBridges | names of connected nodes | intermediate nodes (for extended edges only)");
         for (Edge edge : edges) {
             nodesInPath = " ";
             if (edge.getNodesInPath() != null) {
@@ -91,13 +88,13 @@ public class Graph {
                     nodesInPath = nodesInPath + edge.getNodesInPath().get(i).getName() + " ";
                 }
             }
-            System.out.println(edge.getName() + " " + edge.getnBridges() + "+" + edge.getNPossibleBridges() + " " +
+            System.out.println(edge.getName() + " | " + edge.getnBridges() + "+" + edge.getNPossibleBridges() + " | " +
                     edge.getconnectedNodes()[0].getName()
-                    + " to " + edge.getconnectedNodes()[1].getName() + " (" + nodesInPath + ")");
+                    + " to " + edge.getconnectedNodes()[1].getName() + " | (" + nodesInPath + ")");
         }
     }
 
-    public Edge[] connectEdges(int row, int col, boolean indented) {
+    private Edge[] connectEdges(int row, int col, boolean indented) {
         Edge[] edges = new Edge[6];
         int[][][] nodeTypes = new int[][][] { // row,col (0=first/1=last) targetNode row,col (six times)
                 { { 0, 0, 0 }, { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { 0 } }, // row=first, col=first, indented=false
@@ -467,7 +464,7 @@ public class Graph {
             // check if solved
             graphSolved = true;
             for (Node node : graph) {
-                if (node.actualWeight != node.targetWeight) {
+                if (node.getActualWeight() != node.getTargetWeight()) {
                     graphSolved = false;
                     break;
                 }
@@ -638,10 +635,3 @@ public class Graph {
     }
 
 }
-
-// TODO
-// update uml
-// create test cases
-// check weightMatrix for plausibility
-// check for not connected graphs
-// import puzzle from file

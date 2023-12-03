@@ -19,5 +19,7 @@ public class Main {
                 Graph graph = new Graph(weightMatrix);
                 graph.solveGraph();
                 graph.plotGraph();
+                graph.showEdgeInfo(); // show edge info
+                graph.showNodeInfo(); // show node info
         }
 }

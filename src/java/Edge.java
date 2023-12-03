@@ -4,21 +4,17 @@ import java.util.Vector;
 
 public class Edge {
     // constructor
-    Edge(Node firstNode, Node secondNode, String name) {
+    public Edge(Node firstNode, Node secondNode, String name) {
         this.connectedNodes[0] = firstNode;
         this.connectedNodes[1] = secondNode;
         this.name = name;
     };
 
-    // variables
-    String name;
-    int nBridges;
-    int nPossibleBridges = 2;
-    Vector<Node> nodesInPath = new Vector<Node>();
-    Node[] connectedNodes = new Node[2];
-    boolean blocked = false;
-
-    // getter and setter
+    private String name;
+    private int nBridges;
+    private int nPossibleBridges = 2;
+    private Vector<Node> nodesInPath = new Vector<Node>();
+    private Node[] connectedNodes = new Node[2];
 
     public String getName() {
         return name;
@@ -71,7 +67,6 @@ public class Edge {
         this.nPossibleBridges = nPossibleBridges;
     }
 
-    // methods
     public int getNPossibleBridges() {
         if (this.nPossibleBridges != 0) {
             if (connectedNodes[0].getWeightDifference() == 0 || connectedNodes[1].getWeightDifference() == 0) {
