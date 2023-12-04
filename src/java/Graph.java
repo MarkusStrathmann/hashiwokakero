@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
+import java.util.HashMap;
 
 public class Graph {
     // constructor
@@ -127,77 +128,69 @@ public class Graph {
 
     private Edge[] connectEdges(int row, int col, boolean indented) {
         Edge[] edges = new Edge[6];
-        int[][][] nodeTypes = new int[][][] { // row,col (0=first/1=last) targetNode row,col (six times)
-                { { 0, 0, 0 }, { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { 0 } }, // row=first, col=first, indented=false
-                { { 0, 1, 0 }, { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { 0 } }, // row=first, col=last,
-                                                                                         // indented=false
-                { { 1, 0, 1 }, { -1, 0, 3 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } }, // row=last, col=first,
-                                                                                            // indented=true
-                { { 1, 0, 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } }, // row=last, col=first,
-                                                                                     // indented=false
-                { { 1, 1, 1 }, { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { 0 } }, // row=last, col=last,
-                                                                                         // indented=true
-                { { 1, 1, 0 }, { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { -1, 0, 2 } }, // row=last, col=last,
-                // indented=false
-                { { 0, -1, 0 }, { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { 0 } }, // row=first, col=any,
-                                                                                             // indented=false
-                { { 1, -1, 1 }, { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } }, // row=last,
-                                                                                                    // col=any,
-                                                                                                    // indented=true
-                { { 1, -1, 0 }, { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } }, // row=last,
-                                                                                                     // col=any,
-                                                                                                     // indented=false
-                { { -1, 0, 1 }, { -1, 0, 3 }, { 0 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } }, // row=any,
-                                                                                                   // col=first,
-                                                                                                   // indented=true
-                { { -1, 0, 0 }, { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } }, // row=any, col=first,
-                                                                                         // indented=false
-                { { -1, 1, 1 }, { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 0 }, { 0 }, { 0 } }, // row=any, col=last,
-                                                                                             // indented=true
-                { { -1, 1, 0 }, { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { -1, 0, 2 } }, // row=any,
-                                                                                                         // col=last,
-                                                                                                         // indented=false
-                { { -1, -1, 1 }, { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } }, // row=any,
-                                                                                                           // col=any,
-                                                                                                           // indented=true
-                { { -1, -1, 0 }, { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } } // row=any,
-                                                                                                            // col=any,
-                                                                                                            // indented=false
-        };
-        int[] nodeType = new int[3];
+        HashMap<String, int[][]> nodeTypes = new HashMap<String,int[][]>();
+
+        // "row_col_indented", connection in direction 0 to 5 ({0}=no connected edge, {x,y}=new edge, {x,y,z}=existing edge )
+        nodeTypes.put("first_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { 0 } });
+        nodeTypes.put("first_last_false", new int[][] { { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { 0 } });
+        nodeTypes.put("last_first_true", new int[][] { { -1, 0, 3 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypes.put("last_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } });
+        nodeTypes.put("last_last_true", new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { 0 } });
+        nodeTypes.put("last_last_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { -1, 0, 2 } });
+        nodeTypes.put("first_any_false", new int[][] { { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { 0 } });
+        nodeTypes.put("last_any_true",
+                new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypes.put("last_any_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } });
+        nodeTypes.put("any_first_true",
+                new int[][] { { -1, 0, 3 }, { 0 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypes.put("any_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } });
+        nodeTypes.put("any_last_true", new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 0 }, { 0 }, { 0 } });
+        nodeTypes.put("any_last_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { -1, 0, 2 } });
+        nodeTypes.put("any_any_true",
+                new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypes.put("any_any_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } });
+
+        String nodeTypeRow = new String();
+        String nodeTypeCol = new String();
+        String nodeTypeIndented = new String();
+
         if (row == 0) {
-            nodeType[0] = 0;
+            nodeTypeRow = "first";
         } else if (row == getnRowWeightMatrix() - 1) {
-            nodeType[0] = 1;
+            nodeTypeRow = "last";
         } else {
-            nodeType[0] = -1;
+            nodeTypeRow = "any";
         }
         if (col == 0) {
-            nodeType[1] = 0;
+            nodeTypeCol = "first";
         } else if (col == getnColWeightMatrix() - 1) {
-            nodeType[1] = 1;
+            nodeTypeCol = "last";
         } else {
-            nodeType[1] = -1;
+            nodeTypeCol = "any";
         }
         if (indented == true) {
-            nodeType[2] = 1;
+            nodeTypeIndented = "true";
         } else {
-            nodeType[2] = 0;
+            nodeTypeIndented = "false";
         }
-        for (int[][] element : nodeTypes) {
-            if (Arrays.equals(element[0], nodeType)) {
-                for (int dir = 0; dir < 6; dir++) {
-                    if (element[dir + 1].length == 1) {
-                        edges[dir] = null;
-                    } else if (element[dir + 1].length == 2) {
-                        edges[dir] = new Edge(nodeMatrix[row][col],
-                                nodeMatrix[row + element[dir + 1][0]][col + element[dir + 1][1]],
-                                "E-" + String.format("%03d", ++edgeNumber));
-                    } else {
-                        edges[dir] = nodeMatrix[row + element[dir + 1][0]][col + element[dir + 1][1]]
-                                .getConnectedEdge(element[dir + 1][2]);
-                    }
-                }
+
+        String nodeType = nodeTypeRow + "_" + nodeTypeCol + "_" + nodeTypeIndented;
+
+        int [][] connections = nodeTypes.get(nodeType);
+        for (int dir = 0; dir < 6; dir++) {
+            if (connections[dir].length == 1) {
+                edges[dir] = null;
+            } else if (connections[dir].length == 2) {
+                edges[dir] = new Edge(nodeMatrix[row][col],
+                        nodeMatrix[row + connections[dir][0]][col + connections[dir][1]],
+                        "E-" + String.format("%03d", ++edgeNumber));
+            } else {
+                edges[dir] = nodeMatrix[row + connections[dir][0]][col + connections[dir][1]]
+                        .getConnectedEdge(connections[dir][2]);
             }
         }
         return edges;
