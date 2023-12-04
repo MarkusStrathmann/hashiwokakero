@@ -1,6 +1,5 @@
 package src.java;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
@@ -13,11 +12,16 @@ public class Graph {
         setnRowWeightMatrix(weightMatrix.length);
         setnColWeightMatrix(weightMatrix[0].length);
         this.nodeMatrix = new Node[getnRowWeightMatrix()][getnColWeightMatrix()];
+        defineNodeTypeHashMap();
         initializeGraph();
         updateEdges();
         upddateNeighbors();
         extendEdges();
+        updateEdges();
+        upddateNeighbors();
         cleanGraph();
+        updateEdges();
+        upddateNeighbors();
     }
 
     private int nodeNumber = 0;
@@ -28,6 +32,7 @@ public class Graph {
     private int nColWeightMatrix;
     private Vector<Node> graph = new Vector<Node>();
     private Vector<Edge> edges = new Vector<Edge>();
+    private HashMap<String, int[][]> nodeTypeHashMap = new HashMap<String, int[][]>();
 
     // colors
     private static final String ANSI_RESET = "\u001B[0m";
@@ -126,34 +131,35 @@ public class Graph {
         }
     }
 
+    private void defineNodeTypeHashMap() {
+        // "row_col_indented", connection in direction 0 to 5 ({0}=no connected edge,
+        // {x,y}=new edge, {x,y,z}=existing edge )
+        nodeTypeHashMap.put("first_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { 0 } });
+        nodeTypeHashMap.put("first_last_false", new int[][] { { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { 0 } });
+        nodeTypeHashMap.put("last_first_true", new int[][] { { -1, 0, 3 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypeHashMap.put("last_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } });
+        nodeTypeHashMap.put("last_last_true", new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { 0 } });
+        nodeTypeHashMap.put("last_last_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { -1, 0, 2 } });
+        nodeTypeHashMap.put("first_any_false", new int[][] { { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { 0 } });
+        nodeTypeHashMap.put("last_any_true",
+                new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypeHashMap.put("last_any_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } });
+        nodeTypeHashMap.put("any_first_true",
+                new int[][] { { -1, 0, 3 }, { 0 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypeHashMap.put("any_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } });
+        nodeTypeHashMap.put("any_last_true", new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 0 }, { 0 }, { 0 } });
+        nodeTypeHashMap.put("any_last_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { -1, 0, 2 } });
+        nodeTypeHashMap.put("any_any_true",
+                new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } });
+        nodeTypeHashMap.put("any_any_false",
+                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } });
+    }
+
     private Edge[] connectEdges(int row, int col, boolean indented) {
         Edge[] edges = new Edge[6];
-        HashMap<String, int[][]> nodeTypes = new HashMap<String,int[][]>();
-
-        // "row_col_indented", connection in direction 0 to 5 ({0}=no connected edge, {x,y}=new edge, {x,y,z}=existing edge )
-        nodeTypes.put("first_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { 0 } });
-        nodeTypes.put("first_last_false", new int[][] { { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { 0 } });
-        nodeTypes.put("last_first_true", new int[][] { { -1, 0, 3 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } });
-        nodeTypes.put("last_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } });
-        nodeTypes.put("last_last_true", new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { 0 } });
-        nodeTypes.put("last_last_false",
-                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0 }, { -1, 0, 2 } });
-        nodeTypes.put("first_any_false", new int[][] { { 0 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { 0 } });
-        nodeTypes.put("last_any_true",
-                new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 1, 2 } });
-        nodeTypes.put("last_any_false",
-                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 0 }, { 0 }, { 0, 1 }, { -1, 0, 2 } });
-        nodeTypes.put("any_first_true",
-                new int[][] { { -1, 0, 3 }, { 0 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } });
-        nodeTypes.put("any_first_false", new int[][] { { 0 }, { 0 }, { 0 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } });
-        nodeTypes.put("any_last_true", new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 0 }, { 0 }, { 0 } });
-        nodeTypes.put("any_last_false",
-                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0 }, { -1, 0, 2 } });
-        nodeTypes.put("any_any_true",
-                new int[][] { { -1, 0, 3 }, { 0, -1, 4 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1, 2 } });
-        nodeTypes.put("any_any_false",
-                new int[][] { { -1, -1, 3 }, { 0, -1, 4 }, { 1, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0, 2 } });
-
         String nodeTypeRow = new String();
         String nodeTypeCol = new String();
         String nodeTypeIndented = new String();
@@ -180,7 +186,7 @@ public class Graph {
 
         String nodeType = nodeTypeRow + "_" + nodeTypeCol + "_" + nodeTypeIndented;
 
-        int [][] connections = nodeTypes.get(nodeType);
+        int[][] connections = nodeTypeHashMap.get(nodeType);
         for (int dir = 0; dir < 6; dir++) {
             if (connections[dir].length == 1) {
                 edges[dir] = null;
@@ -248,8 +254,6 @@ public class Graph {
                 }
             }
         }
-        updateEdges();
-        upddateNeighbors();
     }
 
     private int invertDir(int direction) {
@@ -279,8 +283,6 @@ public class Graph {
             //
         }
         graph = newGraph;
-        updateEdges();
-        upddateNeighbors();
     }
 
     public void solveGraph() {
@@ -399,6 +401,7 @@ public class Graph {
                             }
                         }
 
+                        // get all possible patterns to reach targetWeight of node
                         for (int dir0 = nPossibleBridgesPerDirection[0]; dir0 > -1; dir0--) {
                             for (int dir1 = nPossibleBridgesPerDirection[1]; dir1 > -1; dir1--) {
                                 for (int dir2 = nPossibleBridgesPerDirection[2]; dir2 > -1; dir2--) {
