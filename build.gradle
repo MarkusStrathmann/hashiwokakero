@@ -3,6 +3,15 @@ plugins {
 }
 jar {
 	manifest {
-		attributes 'Main-Class': 'src.main.java.Main'
+		attributes 'Main-Class': 'Main'
 	}
+}
+repositories{
+	mavenCentral()
+}
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+}
+test {
+    useJUnitPlatform()
 }

@@ -1,12 +1,9 @@
-package src.main.java;
-
 public class Node {
     // constructor
-    Node() {
+    public Node() {
     };
 
-    public Node(Node node) {
-        setActualWeight(node.actualWeight);
+    public Node(Node node) { // constructor to create new node with values from other node
         setTargetWeight(node.targetWeight);
         setConnectedEdges(node.connectedEdges);
         setNeighborNodes(node.getNeighborNodes());
