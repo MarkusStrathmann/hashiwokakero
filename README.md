@@ -13,7 +13,7 @@ First we need a puzzle that we want to solve. The following illustration shows a
     <img width="700" src="./doc/img/example_puzzle.png">
 </p>
 
-Now that we have found a fresh, unsolved puzzle, the next step is to convert the weights of the islands into a matrix. To do this, we open the file ./src/java/Main.java and adapt the weight matrix of the main method according to the puzzle to be solved. It is important to note that every second row is indented half a position to the right. The first row is accordingly never indented, the last row may be indented or not. 
+Now that we have found a fresh, unsolved puzzle, the next step is to convert the weights of the islands into a matrix. To do this, we open the file ./src/main/java/Main.java and adapt the weight matrix of the main method according to the puzzle to be solved. It is important to note that every second row is indented half a position to the right. The first row is accordingly never indented, the last row may be indented or not. 
 The weight matrix for the example puzzle looks like this:
 
 ```java

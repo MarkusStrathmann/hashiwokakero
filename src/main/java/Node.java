@@ -1,4 +1,4 @@
-package src.java;
+package src.main.java;
 
 public class Node {
     // constructor

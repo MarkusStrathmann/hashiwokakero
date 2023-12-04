@@ -4,6 +4,13 @@
             "type": "java",
             "name": "Main",
             "request": "launch",
+            "mainClass": "src.main.java.Main",
+            "projectName": "hashiwokakero_c19f7778"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
             "mainClass": "src.java.Main",
             "projectName": "hashiwokakero_c19f7778"
         },
