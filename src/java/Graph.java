@@ -9,9 +9,9 @@ public class Graph {
     // constructor
     public Graph(int[][] weightMatrix) {
         this.weightMatrix = weightMatrix;
-        this.nRowWeightMatrix = weightMatrix.length;
-        this.nColWeightMatrix = weightMatrix[0].length;
-        this.nodeMatrix = new Node[nRowWeightMatrix][nColWeightMatrix];
+        setnRowWeightMatrix(weightMatrix.length);
+        setnColWeightMatrix(weightMatrix[0].length);
+        this.nodeMatrix = new Node[getnRowWeightMatrix()][getnColWeightMatrix()];
         initializeGraph();
         updateEdges();
         upddateNeighbors();
@@ -35,22 +35,46 @@ public class Graph {
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_WHITE = "\u001B[90m";
 
+    public int getnRowWeightMatrix() {
+        return nRowWeightMatrix;
+    }
+
+    public void setnRowWeightMatrix(int nRowWeightMatrix) {
+        if (nRowWeightMatrix < 2) {
+            throw new IllegalArgumentException("Argument must be at least 2 but is " + nRowWeightMatrix + "!");
+        } else {
+            this.nRowWeightMatrix = nRowWeightMatrix;
+        }
+    }
+
+    public int getnColWeightMatrix() {
+        return nColWeightMatrix;
+    }
+
+    public void setnColWeightMatrix(int nColWeightMatrix) {
+        if (nColWeightMatrix < 2) {
+            throw new IllegalArgumentException("Argument must be at least 2 but is " + nColWeightMatrix + "!");
+        } else {
+            this.nColWeightMatrix = nColWeightMatrix;
+        }
+    }
+
     private void initializeGraph() {
-        if (nRowWeightMatrix <= 1 || nColWeightMatrix <= 1) {
+        if (getnRowWeightMatrix() < 2 || getnColWeightMatrix() < 2) {
             throw new IllegalStateException(
                     "Unable to initialize graph. NRowWeightMatrix and nColweightMatrix must both be at least 2 but are "
-                            + nRowWeightMatrix + " and " + nColWeightMatrix + "!");
+                            + getnRowWeightMatrix() + " and " + getnColWeightMatrix() + "!");
         } else {
-            for (int row = 0; row < nRowWeightMatrix; row++) {
-                for (int col = 0; col < nColWeightMatrix; col++) {
+            for (int row = 0; row < getnRowWeightMatrix(); row++) {
+                for (int col = 0; col < getnColWeightMatrix(); col++) {
                     nodeMatrix[row][col] = new Node();
                     nodeMatrix[row][col].setName("N-" + String.format("%03d", ++nodeNumber));
                 }
             }
             boolean indented;
 
-            for (int row = 0; row < nRowWeightMatrix; row++) {
-                for (int col = 0; col < nColWeightMatrix; col++) {
+            for (int row = 0; row < getnRowWeightMatrix(); row++) {
+                for (int col = 0; col < getnColWeightMatrix(); col++) {
                     nodeMatrix[row][col].setTargetWeight(weightMatrix[row][col]);
                     if ((row + 1) % 2 == 0) {
                         indented = true;
@@ -143,14 +167,14 @@ public class Graph {
         int[] nodeType = new int[3];
         if (row == 0) {
             nodeType[0] = 0;
-        } else if (row == nRowWeightMatrix - 1) {
+        } else if (row == getnRowWeightMatrix() - 1) {
             nodeType[0] = 1;
         } else {
             nodeType[0] = -1;
         }
         if (col == 0) {
             nodeType[1] = 0;
-        } else if (col == nColWeightMatrix - 1) {
+        } else if (col == getnColWeightMatrix() - 1) {
             nodeType[1] = 1;
         } else {
             nodeType[1] = -1;
@@ -494,10 +518,10 @@ public class Graph {
     }
 
     public void plotGraph() {
-        if (nRowWeightMatrix <= 0 || nColWeightMatrix <= 0) {
+        if (getnRowWeightMatrix() < 2 || getnColWeightMatrix() < 2) {
             throw new IllegalStateException(
                     "Unable to plot graph. NRowWeightMatrix and nColweightMatrix must both be at least 2 but are "
-                            + nRowWeightMatrix + " and " + nColWeightMatrix + "!");
+                            + getnRowWeightMatrix() + " and " + getnColWeightMatrix() + "!");
         } else {
             int targetWeight;
             Node node;
@@ -508,7 +532,7 @@ public class Graph {
             Vector<Node> wayPointsV = new Vector<Node>();
             Vector<Node> wayPointsD = new Vector<Node>();
             Vector<Node> wayPointsI = new Vector<Node>();
-            for (int row = 0; row < nRowWeightMatrix; row++) {
+            for (int row = 0; row < getnRowWeightMatrix(); row++) {
                 if (row % 2 != 0) {
                     midLayerA = " ";
                     midLayerB = " ";
@@ -522,7 +546,7 @@ public class Graph {
                     midLayerC = " ";
                 }
                 ;
-                for (int col = 0; col < nColWeightMatrix; col++) {
+                for (int col = 0; col < getnColWeightMatrix(); col++) {
                     node = nodeMatrix[row][col];
                     targetWeight = node.getTargetWeight();
                     if (targetWeight < 10) {
@@ -549,7 +573,7 @@ public class Graph {
                     } else if (wayPointsV.contains(node)) {
                         System.out.print(ANSI_BLUE + "  — — — " + ANSI_RESET);
                         wayPointsV.remove(node);
-                    } else if (col != nColWeightMatrix - 1) {
+                    } else if (col != getnColWeightMatrix() - 1) {
                         System.out.print(ANSI_WHITE + "  — — — " + ANSI_RESET);
                     }
 
@@ -578,7 +602,7 @@ public class Graph {
                             midLayerB = midLayerB + ANSI_BLUE + "  /  " + ANSI_RESET;
                             midLayerC = midLayerC + ANSI_BLUE + " /   " + ANSI_RESET;
                             wayPointsI.remove(node);
-                        } else if (row != nRowWeightMatrix - 1) {
+                        } else if (row != getnRowWeightMatrix() - 1) {
                             midLayerA = midLayerA + ANSI_WHITE + "   / " + ANSI_RESET;
                             midLayerB = midLayerB + ANSI_WHITE + "  /  " + ANSI_RESET;
                             midLayerC = midLayerC + ANSI_WHITE + " /   " + ANSI_RESET;
@@ -609,7 +633,7 @@ public class Graph {
                         midLayerB = midLayerB + ANSI_BLUE + "  \\  " + ANSI_RESET;
                         midLayerC = midLayerC + ANSI_BLUE + "   \\ " + ANSI_RESET;
                         wayPointsI.remove(node);
-                    } else if (row != nRowWeightMatrix - 1 && !(oddRow && col == nColWeightMatrix - 1)) {
+                    } else if (row != getnRowWeightMatrix() - 1 && !(oddRow && col == nColWeightMatrix - 1)) {
                         midLayerA = midLayerA + ANSI_WHITE + " \\   " + ANSI_RESET;
                         midLayerB = midLayerB + ANSI_WHITE + "  \\  " + ANSI_RESET;
                         midLayerC = midLayerC + ANSI_WHITE + "   \\ " + ANSI_RESET;
