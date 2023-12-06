@@ -10,7 +10,7 @@ public class Node {
     };
 
     private String name;
-    private int actualWeight = 0;
+    private int actualWeight;
     private int targetWeight;
     private Edge[] connectedEdges = new Edge[6]; // index 0-5 shows direction
     private Node[] neighborNodes = new Node[6]; // index 0-5 shows direction
@@ -29,7 +29,7 @@ public class Node {
 
     public void setActualWeight(int actualWeight) {
         if (actualWeight > getTargetWeight()) {
-            throw new IllegalArgumentException("Argument must not be greater than targetWeight(" + getTargetWeight()
+            throw new IllegalStateException("Argument must not be greater than targetWeight(" + getTargetWeight()
                     + ") but is " + actualWeight + "!");
         } else if (actualWeight < 0) {
             throw new IllegalArgumentException("Argument must not be smaller than 0 but is " + actualWeight + "!");
@@ -43,8 +43,8 @@ public class Node {
     }
 
     public void setTargetWeight(int targetWeight) {
-        if (targetWeight < getActualWeight()) {
-            throw new IllegalArgumentException("Argument must not be smaller than actualWeight(" + getActualWeight()
+        if (targetWeight < getActualWeight() && targetWeight > 0) {
+            throw new IllegalStateException("Argument must not be smaller than actualWeight(" + getActualWeight()
                     + ") but is " + targetWeight + "!");
         } else if (targetWeight < 0) {
             throw new IllegalArgumentException("Argument must not be smaller than 0 but is " + targetWeight + "!");
@@ -54,7 +54,11 @@ public class Node {
     }
 
     public Edge getConnectedEdge(int direction) {
-        return connectedEdges[direction];
+        if (direction < 0 || direction > 5) {
+            throw new IllegalArgumentException("Argument must be between 0 and 5 but is " + direction + "!");
+        } else {
+            return connectedEdges[direction];
+        }
     }
 
     public Edge[] getConnectedEdges() {
@@ -79,7 +83,11 @@ public class Node {
     }
 
     public Node getNeighborNode(int direction) {
-        return neighborNodes[direction];
+        if (direction < 0 || direction > 5) {
+            throw new IllegalArgumentException("Argument must be between 0 and 5 but is " + direction + "!");
+        } else {
+            return neighborNodes[direction];
+        }
     }
 
     public Node[] getNeighborNodes() {
@@ -133,7 +141,7 @@ public class Node {
             if (edge != null && edge.getNPossibleBridges() != 0) {
                 if (edge.getNPossibleBridges() == 1) {
                     nPossibleBridges++;
-                } else if (edge.getNPossibleBridges() == 2) {
+                } else{
                     nPossibleBridges++;
                     nPossibleBridges++;
                 }
@@ -160,18 +168,22 @@ public class Node {
     }
 
     public void incrementActualWeight() {
-        if (getActualWeight() >= getTargetWeight()){
-            throw new IllegalStateException("Unable to increment actualWeight. ActualWeight must be smaller than targetWeight ("+ getTargetWeight() +") but is " + getActualWeight() + "!");
+        if (getActualWeight() >= getTargetWeight()) {
+            throw new IllegalStateException(
+                    "Unable to increment actualWeight. ActualWeight must be smaller than targetWeight ("
+                            + getTargetWeight() + ") but is " + getActualWeight() + "!");
         } else {
-        this.actualWeight++;
+            this.actualWeight++;
         }
     }
 
     public void decrementActualWeight() {
-        if (getActualWeight() <=0){
-            throw new IllegalStateException("Unable to decrement actualWeight. ActualWeight must be greater than 0 but is " + getActualWeight() + "!");
+        if (getActualWeight() <= 0) {
+            throw new IllegalStateException(
+                    "Unable to decrement actualWeight. ActualWeight must be greater than 0 but is " + getActualWeight()
+                            + "!");
         } else {
-        this.actualWeight--;
+            this.actualWeight--;
         }
     }
 }
