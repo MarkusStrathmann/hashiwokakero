@@ -3,7 +3,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class NodeTest {
 
-    // node()
+    // Node()
     @Test
     void nameShouldBeNull() {
         Node testNode = new Node();
@@ -79,7 +79,7 @@ public class NodeTest {
         assertArrayEquals(testNode1.getNeighborNodes(), testNode5.getNeighborNodes());
     }
 
-    // getName()
+    // getName() & setName()
     @Test
     void getNameShouldBeGerald() {
         Node testNode = new Node();
@@ -100,7 +100,7 @@ public class NodeTest {
         assertNull(testNode.getName());
     }
 
-    // getActualWeight & setActualWeight
+    // getActualWeight() & setActualWeight()
     @Test
     void getActualWeightShouldBeFive() {
         Node testNode = new Node();
@@ -135,7 +135,7 @@ public class NodeTest {
         assertThrows(IllegalArgumentException.class, () -> testNode.setActualWeight(-1));
     }
 
-    // getTargetWeight & setTargetWeight
+    // getTargetWeight() & setTargetWeight()
     @Test
     void getTargetWeightShouldBeSix() {
         Node testNode = new Node();
@@ -172,8 +172,7 @@ public class NodeTest {
         assertThrows(IllegalArgumentException.class, () -> testNode.setTargetWeight(-1));
     }
 
-    // getConnectedEdges & setConnectedEdges
-
+    // getConnectedEdges() & setConnectedEdges()
     @Test
     void getConnectedEdgesOfNewNodeShouldBeArrayOfNulls() {
         Node testNode = new Node();
@@ -194,11 +193,10 @@ public class NodeTest {
         Node testNode3 = new Node();
         Edge testEdge1 = new Edge(testNode2, testNode3, "testEdge1");
         Edge testEdge2 = new Edge(testNode3, testNode2, "testEdge2");
-
         testNode1.setConnectedEdges(new Edge[] { testEdge1, testEdge2, testEdge1, testEdge2, testEdge1, testEdge2 });
-
-        assertArrayEquals(testNode1.getConnectedEdges(),
-                new Edge[] { testEdge1, testEdge2, testEdge1, testEdge2, testEdge1, testEdge2 });
+        assertArrayEquals(
+                new Edge[] { testEdge1, testEdge2, testEdge1, testEdge2, testEdge1, testEdge2 },
+                testNode1.getConnectedEdges());
     }
 
     @Test
@@ -215,7 +213,7 @@ public class NodeTest {
                 () -> testNode.setConnectedEdges(new Edge[] { null, null, null, null, null, null, null }));
     }
 
-    // setConnectedEdge & getConnectedEdge
+    // setConnectedEdge() & getConnectedEdge()
     @Test
     void getConnectedEdgeWithDirectionFiveShouldReturnTestEdge2() {
         Node testNode1 = new Node();
@@ -223,9 +221,7 @@ public class NodeTest {
         Node testNode3 = new Node();
         Edge testEdge1 = new Edge(testNode2, testNode3, "testEdge1");
         Edge testEdge2 = new Edge(testNode3, testNode2, "testEdge2");
-
         testNode1.setConnectedEdges(new Edge[] { testEdge1, testEdge1, testEdge1, testEdge1, testEdge1, testEdge2 });
-
         assertEquals(testEdge2, testNode1.getConnectedEdge(5));
     }
 
@@ -236,9 +232,7 @@ public class NodeTest {
         Node testNode3 = new Node();
         Edge testEdge1 = new Edge(testNode2, testNode3, "testEdge1");
         Edge testEdge2 = new Edge(testNode3, testNode2, "testEdge2");
-
         testNode1.setConnectedEdges(new Edge[] { testEdge2, testEdge1, testEdge1, testEdge1, testEdge1, testEdge1 });
-
         assertEquals(testEdge2, testNode1.getConnectedEdge(0));
     }
 
@@ -275,7 +269,7 @@ public class NodeTest {
         assertNull(testNode.getConnectedEdge(4));
     }
 
-    // getWeightDifference
+    // getWeightDifference()
     @Test
     void getWeightDifferenceShouldReturnZero() {
         Node testNode = new Node();
@@ -298,7 +292,7 @@ public class NodeTest {
         assertEquals(0, testNode.getWeightDifference());
     }
 
-    // getNFreeEdges
+    // getNFreeEdges()
     @Test
     void getNFreeEdgesShouldReturnZero() {
         Node testNode1 = new Node();
@@ -404,7 +398,7 @@ public class NodeTest {
         assertEquals(5, testNode1.getNFreeEdges());
     }
 
-    // setNeighborNodes & getNeighborNodes
+    // setNeighborNodes() & getNeighborNodes()
     @Test
     void getNeighborNodesOfNewNodeShouldBeArrayOfNulls() {
         Node testNode = new Node();
@@ -424,7 +418,6 @@ public class NodeTest {
         Node testNode2 = new Node();
         Node testNode3 = new Node();
         testNode1.setNeighborNodes(new Node[] { testNode2, testNode3, testNode2, testNode3, testNode2, testNode3 });
-
         assertArrayEquals(testNode1.getNeighborNodes(),
                 new Node[] { testNode2, testNode3, testNode2, testNode3, testNode2, testNode3 });
     }
@@ -443,7 +436,7 @@ public class NodeTest {
                 () -> testNode.setNeighborNodes(new Node[] { null, null, null, null, null, null, null }));
     }
 
-    // setNeighborNode & getNeighborNode
+    // setNeighborNode() & getNeighborNode()
     @Test
     void getNeighborNodeWithDirectionFiveShouldReturnTestNode3() {
         Node testNode1 = new Node();
@@ -495,8 +488,7 @@ public class NodeTest {
         assertNull(testNode.getNeighborNode(4));
     }
 
-    // incrementActualWeight & decrementActualWeight
-
+    // incrementActualWeight() & decrementActualWeight()
     @Test
     void getActualWeightAfterIncrementActualWeightShouldReturnFive() {
         Node testNode = new Node();
@@ -611,7 +603,7 @@ public class NodeTest {
         assertEquals(6, testNode1.getNConnectedEdges());
     }
 
-    // getNPossibleBridges
+    // getNPossibleBridges()
     @Test
     void getNPossibleBridgesShouldReturnZeroForNewNode() {
         Node testNode = new Node();
@@ -705,7 +697,7 @@ public class NodeTest {
         assertEquals(2, testNode1.getNPossibleBridges());
     }
 
-    // getNFunnyEdges
+    // getNFunnyEdges()
     @Test
     void getNFunnyEdgesShouldReturnZeroForNewNode() {
         Node testNode = new Node();

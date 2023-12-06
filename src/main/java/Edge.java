@@ -26,14 +26,6 @@ public class Edge {
         return nBridges;
     }
 
-    public void setnBridges(int nBridges) {
-        if (nBridges < 0 || nBridges > 2) {
-            throw new IllegalArgumentException("Argument must be between 0 and 2 but is " + nBridges + "!");
-        } else {
-            this.nBridges = nBridges;
-        }
-    }
-
     public Vector<Node> getNodesInPath() {
         return nodesInPath;
     }
@@ -55,18 +47,15 @@ public class Edge {
     }
 
     public void setConnectedNodes(Node[] connectedNodes) {
-        if (connectedNodes.length != 6) {
+        if (connectedNodes.length != 2) {
             throw new IllegalArgumentException(
-                    "Argument must contain 6 nodes but contains " + connectedNodes.length + "!");
+                    "Argument must contain 2 nodes but contains " + connectedNodes.length + "!");
         } else {
             this.connectedNodes = connectedNodes;
         }
     }
 
-    public void setNPossibleBridges(int nPossibleBridges) {
-        if(nPossibleBridges < 0 || nPossibleBridges > 2){
-            throw new IllegalArgumentException("Argument must be between 0 and to but is " + nPossibleBridges + "!");
-        }
+    private void setNPossibleBridges(int nPossibleBridges) {
         this.nPossibleBridges = nPossibleBridges;
     }
 
@@ -82,7 +71,7 @@ public class Edge {
     }
 
     public void incrementNBridges() {
-        if (getnBridges() > 1 || getnBridges() < 0){
+        if (getnBridges() > 1){
             throw new IllegalStateException("Unable to increment nBridges. NBridges must be either 0 or 1 but is " + getNPossibleBridges() + "!");
         } else {
             this.nBridges++;
@@ -97,7 +86,7 @@ public class Edge {
             for (Edge edge : edges) {
                 if (edge != this) {
                     for (Node nodeA : edge.getNodesInPath()) {
-                        for (Node nodeB : nodesInPath) {
+                        for (Node nodeB : this.getNodesInPath()) {
                             if (nodeA == nodeB) {
                                 edge.setNPossibleBridges(0);
                                 ;
