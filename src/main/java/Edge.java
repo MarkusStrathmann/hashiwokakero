@@ -71,8 +71,9 @@ public class Edge {
     }
 
     public void incrementNBridges() {
-        if (getnBridges() > 1){
-            throw new IllegalStateException("Unable to increment nBridges. NBridges must be either 0 or 1 but is " + getNPossibleBridges() + "!");
+        if (getnBridges() > 1) {
+            throw new IllegalStateException("Unable to increment nBridges. NBridges must be either 0 or 1 but is "
+                    + getNPossibleBridges() + "!");
         } else {
             this.nBridges++;
             this.nPossibleBridges--;
