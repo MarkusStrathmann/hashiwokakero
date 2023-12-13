@@ -13,35 +13,43 @@ First we need a puzzle that we want to solve. The following illustration shows a
     <img width="700" src="./doc/img/example_puzzle.png">
 </p>
 
-Now that we have found a fresh, unsolved puzzle, the next step is to convert the weights of the islands into a matrix. To do this, we open the file ./src/main/java/Main.java and adapt the weight matrix of the main method according to the puzzle to be solved. It is important to note that every second row is indented half a position to the right. The first row is accordingly never indented, the last row may be indented or not. 
+Now that we have found a fresh, unsolved puzzle, the next step is to convert the weights of the islands into a matrix. To do this, we open the file src/main/resources/examplePuzzle.json and adapt the weight matrix to the puzzle to be solved. Alternatively, we can also create a new puzzle and either add it to the existing file or save it to a new file. We can adjust the path and the keyword that refers to the puzzle in the main method which can be found under src/main/java/Main.java. It is important to note that every second row is indented half a position to the right. The first row is accordingly never indented, the last row may be indented or not. 
 The weight matrix for the example puzzle looks like this:
 
+```json
+{
+    "examplePuzzle":
+    [
+        [ 0, 0, 1, 7, 5, 3, 3, 6, 5, 2 ],
+        [ 0, 2, 4, 4, 0, 0, 0, 5, 0, 0 ],
+        [ 0, 0, 2, 3, 0, 0, 1, 0, 0, 0 ],
+        [ 0, 2, 7, 3, 4, 4, 0, 0, 0, 0 ],
+        [ 0, 0, 7, 7, 0, 1, 0, 0, 0, 0 ],
+        [ 5, 5, 3, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 ]
+    ]
+}
+```
+We then have to load the weight matrix into a nested array of integers. puzzleJSON refers to the json file and puzzleName refers to the corresponding puzzle within the file.
+
 ```java
-int [] [] weightMatrix = {
-                {0,0,1,7,5,3,3,6,5,2},
-                {0,2,4,4,0,0,0,5,0,0},
-                {0,0,2,3,0,0,1,0,0,0},
-                {0,2,7,3,4,4,0,0,0,0},
-                {0,0,7,7,0,1,0,0,0,0},
-                {5,5,3,0,0,0,0,0,0,0},
-                {2,0,0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,1,0,0,0,0}
-        };
+int[][] weightMatrix = PuzzleLoader.loadPuzzle(puzzleJSON, puzzleName);
 ```
 
-To generate a new graph from the weight matrix and solve the puzzle, we add the following lines to the main method:
+To generate a new graph from the weight matrix and solve the puzzle, we use the following lines of the main method:
 
 ```java               
 Graph graph = new Graph(weightMatrix);
 graph.solveGraph();
 ```
-And to plot the graph we add the following line to the main method:
+And to plot the graph we use the following line of the main method:
 
 ```java
 graph.plotGraph();
 ```
 
-Now that we have completely adapted the main method to our example puzzle, we can start the program by running the main method. For our example puzzle we get the following output:
+Now that our main method is ready to solve the example puzzle, we can start the program by running the main method - for building you may use the gradle build tool to get all the dependencies and run tests. For our example puzzle we get the following output:
 
 <p align="center">
         <img width="700" src="./doc/img/example_puzzle_console_output.png">

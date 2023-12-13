@@ -273,7 +273,7 @@ public class Graph {
         graph = newGraph;
     }
 
-    public void solveGraph() {
+    public Vector<Node> solveGraph() {
         boolean graphSolved = false;
         int dummySolver = 2;
         boolean buildedBridge;
@@ -338,6 +338,7 @@ public class Graph {
                 }
             }
         }
+        return graph;
     }
 
     public void plotGraph() {
