@@ -22,6 +22,7 @@ public class Graph {
         upddateNeighbors();
     }
 
+    private boolean graphSolved = false;
     private int nodeNumber = 0;
     private int edgeNumber = 0;
     private int[][] weightMatrix;
@@ -39,11 +40,11 @@ public class Graph {
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_WHITE = "\u001B[90m";
 
-    public int getnRowWeightMatrix() {
+    private int getnRowWeightMatrix() {
         return nRowWeightMatrix;
     }
 
-    public void setnRowWeightMatrix(int nRowWeightMatrix) {
+    private void setnRowWeightMatrix(int nRowWeightMatrix) {
         if (nRowWeightMatrix < 2) {
             throw new IllegalArgumentException("Argument must be at least 2 but is " + nRowWeightMatrix + "!");
         } else {
@@ -51,16 +52,32 @@ public class Graph {
         }
     }
 
-    public int getnColWeightMatrix() {
+    private int getnColWeightMatrix() {
         return nColWeightMatrix;
     }
 
-    public void setnColWeightMatrix(int nColWeightMatrix) {
+    private void setnColWeightMatrix(int nColWeightMatrix) {
         if (nColWeightMatrix < 2) {
             throw new IllegalArgumentException("Argument must be at least 2 but is " + nColWeightMatrix + "!");
         } else {
             this.nColWeightMatrix = nColWeightMatrix;
         }
+    }
+
+    public boolean isGraphSolved() {
+        return graphSolved;
+    }
+
+    private void setGraphSolved(boolean graphSolved) {
+        this.graphSolved = graphSolved;
+    }
+
+    public int[] getNBridgesOfAllEdges() {
+        int[] nBridgesOfAllEdges = new int[edges.size()];
+        for (int i = 0; i < edges.size(); i++) {
+            nBridgesOfAllEdges[i] = edges.get(i).getnBridges();
+        }
+        return nBridgesOfAllEdges;
     }
 
     private void initializeGraph() {
@@ -244,7 +261,7 @@ public class Graph {
                                             new Edge(node, dummyNode, node.getConnectedEdge(dir).getName() + "x"));
                                     node.getConnectedEdge(dir).setŃodesInPath(wayPoints);
                                 } else {
-                                    node.setConnectedEdge(dir, dummyNode.getConnectedEdge(Solver.invertDir(dir)));
+                                    node.setConnectedEdge(dir, dummyNode.getConnectedEdge(AbstractSolver.invertDir(dir)));
                                 }
                             }
                             break;
@@ -273,8 +290,8 @@ public class Graph {
         graph = newGraph;
     }
 
-    public Vector<Node> solveGraph() {
-        boolean graphSolved = false;
+    public void solveGraph() {
+        setGraphSolved(false);
         int dummySolver = 2;
         boolean buildedBridge;
         while (!graphSolved) {
@@ -312,10 +329,10 @@ public class Graph {
                 }
             }
             // check if graph is solved
-            graphSolved = true;
+            setGraphSolved(true);
             for (Node node : graph) {
                 if (node.getActualWeight() != node.getTargetWeight()) {
-                    graphSolved = false;
+                    setGraphSolved(false);
                     break;
                 }
             }
@@ -338,7 +355,6 @@ public class Graph {
                 }
             }
         }
-        return graph;
     }
 
     public void plotGraph() {

@@ -2,10 +2,10 @@
 /**
  * Solver
  */
-public abstract class Solver {
-    public static boolean buildedBridge =false;
+public abstract class AbstractSolver {
+    public static boolean buildedBridge = false;
     public static String buildInfo = "";
-    
+
     public static String buildInfo(Node node, int direction) {
         String builInfo = " -> builded bridge on edge " + node.getConnectedEdge(direction).getName() + " ("
                 + node.getConnectedEdge(direction).getConnectedNodes()[0].getName() + " to "

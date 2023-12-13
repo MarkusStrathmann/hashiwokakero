@@ -1,6 +1,6 @@
 import java.util.Vector;
 
-public class SolverC extends Solver {
+public class SolverC extends AbstractSolver {
     // constructor
     public SolverC() {
     };

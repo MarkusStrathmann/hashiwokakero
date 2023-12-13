@@ -4,14 +4,18 @@
  */
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
 
 public class Main {
-        public static void main(String[] args) {
+        public static void main(String[] args) throws IOException, ParseException, FileNotFoundException  {
 
                 File puzzleJSON = new File("src/main/resources/examplePuzzle.json"); // path to json file with puzzle
-                String puzzleName = "examplePuzzle"; // keyword for weightMatrix of puzzle in json file
+                String keyword = "weightMatrix"; // keyword for weight matrix in json file
 
-                int[][] weightMatrix = PuzzleLoader.loadPuzzle(puzzleJSON, puzzleName);
+                int[][] weightMatrix = AbstractPuzzleLoader.loadPuzzle(puzzleJSON, keyword);
                 Graph graph = new Graph(weightMatrix);
                 graph.solveGraph();
                 graph.plotGraph();

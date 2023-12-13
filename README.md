@@ -13,7 +13,7 @@ First we need a puzzle that we want to solve. The following illustration shows a
     <img width="700" src="./doc/img/example_puzzle.png">
 </p>
 
-Now that we have found a fresh, unsolved puzzle, the next step is to convert the weights of the islands into a matrix. To do this, we open the file src/main/resources/examplePuzzle.json and adapt the weight matrix to the puzzle to be solved. Alternatively, we can also create a new puzzle and either add it to the existing file or save it to a new file. We can adjust the path and the keyword that refers to the puzzle in the main method which can be found under src/main/java/Main.java. It is important to note that every second row is indented half a position to the right. The first row is accordingly never indented, the last row may be indented or not. 
+Now that we have found a fresh, unsolved puzzle, the next step is to put the weights of the islands into a matrix. To do this, we create the file src/main/resources/examplePuzzle.json and add a new JSONArray called *weightMatrix*. It is important to note that every second row is indented half a position to the right. The first row is accordingly never indented, the last row may be indented or not. 
 The weight matrix for the example puzzle looks like this:
 
 ```json
@@ -31,10 +31,15 @@ The weight matrix for the example puzzle looks like this:
     ]
 }
 ```
-We then have to load the weight matrix into a nested array of integers. puzzleJSON refers to the json file and puzzleName refers to the corresponding puzzle within the file.
+Afterwards we adjust the path and the keyword in main method which can be found under src/main/java/Main.java.
+```java
+File puzzleJSON = new File("src/main/resources/examplePuzzle.json"); // path to json file with puzzle
+String keyword = "weightMatrix"; // keyword for weight matrix in json file
+```
+We then have to load the weight matrix into a nested array of integers, thereby *puzzleJSON* refers to the json file and *keyword* refers to the keyword for the weight matrix within the file.
 
 ```java
-int[][] weightMatrix = PuzzleLoader.loadPuzzle(puzzleJSON, puzzleName);
+int[][] weightMatrix = PuzzleLoader.loadPuzzle(puzzleJSON, keyword);
 ```
 
 To generate a new graph from the weight matrix and solve the puzzle, we use the following lines of the main method:
@@ -49,7 +54,7 @@ And to plot the graph we use the following line of the main method:
 graph.plotGraph();
 ```
 
-Now that our main method is ready to solve the example puzzle, we can start the program by running the main method - for building you may use the gradle build tool to get all the dependencies and run tests. For our example puzzle we get the following output:
+Now that our main method is ready to solve the example puzzle, we can start the program by running the main method - for building you may use the gradle build tool to get all the dependencies and run some tests. For our example puzzle we get the following output:
 
 <p align="center">
         <img width="700" src="./doc/img/example_puzzle_console_output.png">
