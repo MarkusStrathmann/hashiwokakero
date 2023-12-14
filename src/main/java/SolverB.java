@@ -14,15 +14,13 @@ public class SolverB extends AbstractSolver {
                 while (repetitions > 0) {
                     if (node.getConnectedEdge(dir) != null
                             && node.getConnectedEdge(dir).getNPossibleBridges() != 0) {
-                        if (node.getNeighborNode(dir).getWeightDifference() > 0) {
-                            node.getConnectedEdge(dir).incrementNBridges();
-                            buildedBridge = true;
-                            node.getConnectedEdge(dir).blockCrossingEdges(edges);
-                            buildInfo = buildInfo(node, dir);
-                            System.out.println(
-                                    buildInfo
-                                            + " with value 1: weightDifference == nPossibleBridges (all to be filled)");
-                        }
+                        node.getConnectedEdge(dir).incrementNBridges();
+                        buildedBridge = true;
+                        node.getConnectedEdge(dir).blockCrossingEdges(edges);
+                        buildInfo = buildInfo(node, dir);
+                        System.out.println(
+                                buildInfo
+                                        + " with value 1: weightDifference == nPossibleBridges (all to be filled)");
                     }
                     repetitions--;
                 }
