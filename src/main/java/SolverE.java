@@ -80,21 +80,23 @@ public class SolverE extends AbstractSolver {
         }
 
         // check for edges that contain new bridges in all plausible solutions
-        for (int dir = 0; dir < 6; dir++) {
-            boolean allSolutionsBuildBridge = true;
-            for (int[] plausibleSolution : plausibleSolutions) {
-                if (plausibleSolution[dir] == 0) {
-                    allSolutionsBuildBridge = false;
-                    break;
+        if (plausibleSolutions.size() != 0) {
+            for (int dir = 0; dir < 6; dir++) {
+                boolean allSolutionsBuildBridge = true;
+                for (int[] plausibleSolution : plausibleSolutions) {
+                    if (plausibleSolution[dir] == 0) {
+                        allSolutionsBuildBridge = false;
+                        break;
+                    }
                 }
-            }
-            if (allSolutionsBuildBridge == true) {
-                node.getConnectedEdge(dir).incrementNBridges();
-                buildedBridge = true;
-                node.getConnectedEdge(dir).blockCrossingEdges(edges);
-                buildInfo = buildInfo(node, dir);
-                System.out.println(buildInfo
-                        + " with value 1: (common new bridge in all plausible solutions)");
+                if (allSolutionsBuildBridge == true) {
+                    node.getConnectedEdge(dir).incrementNBridges();
+                    buildedBridge = true;
+                    node.getConnectedEdge(dir).blockCrossingEdges(edges);
+                    buildInfo = buildInfo(node, dir);
+                    System.out.println(buildInfo
+                            + " with value 1: (common new bridge in all plausible solutions)");
+                }
             }
         }
 
