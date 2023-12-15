@@ -6,3 +6,6 @@ build
 
 # Ignore VS Code files
 .vscode
+
+# Ignore Zeit Online puzzles
+src/test/resources/zeitOnlinePuzzles.json

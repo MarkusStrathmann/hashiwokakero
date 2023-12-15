@@ -29,10 +29,10 @@ public class SolverC extends AbstractSolver {
         boolean c0;
         boolean d0;
 
-        int[] inclinationDirs = new int[] { 2,3 }; // for ambiguous sqaures inclined to left and right
+        int[] inclinationDirs = new int[] { 2, 3 }; // for ambiguous sqaures inclined to left and right
 
         for (int incDir : inclinationDirs) {
-            if (buildedBridge == true){
+            if (buildedBridge == true) {
                 break;
             }
             try {
@@ -49,7 +49,7 @@ public class SolverC extends AbstractSolver {
                 EdgeC.getnBridges();
                 EdgeD.getnBridges();
             } catch (Exception e) {
-               continue;
+                continue;
             }
             wdA = NodeA.getWeightDifference();
             wdB = NodeB.getWeightDifference();
@@ -60,7 +60,15 @@ public class SolverC extends AbstractSolver {
             b0 = EdgeB.getnBridges() == 0;
             c0 = EdgeC.getnBridges() == 0;
             d0 = EdgeD.getnBridges() == 0;
-            if (wdA == wdB && wdB == wdC && wdC == wdD && wdD == 1) {
+
+            Vector<Node> squareNodes = new Vector<Node>();
+            squareNodes.add(NodeA);
+            squareNodes.add(NodeB);
+            squareNodes.add(NodeC);
+            squareNodes.add(NodeD);
+
+            if ((wdA == wdB && wdB == wdC && wdC == wdD && wdD == 1)
+                    && checkForPossibleBridgesOutsideOfSquare(squareNodes) == false) {
                 if ((!a0 && b0 && c0 && d0) || (!c0 && a0 && b0 && d0)) {
                     EdgeB.incrementNBridges();
                     EdgeB.blockCrossingEdges(edges);
@@ -89,5 +97,23 @@ public class SolverC extends AbstractSolver {
             }
         }
         return buildedBridge;
+    }
+
+    private static boolean checkForPossibleBridgesOutsideOfSquare(Vector<Node> squareNodes) {
+        boolean possibleBridgesOutsideOfSquare = false;
+        for (Node node : squareNodes) {
+            for (int dir = 0; dir < 6; dir++) {
+                if (node.getConnectedEdge(dir) != null) {
+                    if (node.getConnectedEdge(dir).getNPossibleBridges() > 0
+                            && squareNodes.contains(node.getNeighborNode(dir)) == false) {
+                        possibleBridgesOutsideOfSquare = true;
+                    }
+                }
+            }
+            if (possibleBridgesOutsideOfSquare == true) {
+                break;
+            }
+        }
+        return possibleBridgesOutsideOfSquare;
     }
 }
