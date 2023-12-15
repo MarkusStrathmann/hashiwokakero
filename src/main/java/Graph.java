@@ -20,6 +20,7 @@ public class Graph {
         cleanGraph();
         updateEdges();
         upddateNeighbors();
+        checkPlausibilityOfGraph();
     }
 
     private boolean graphSolved = false;
@@ -106,6 +107,14 @@ public class Graph {
                     nodeMatrix[row][col].setConnectedEdges(connectEdges(row, col, indented));
                     graph.add(nodeMatrix[row][col]);
                 }
+            }
+        }
+    }
+
+    private void checkPlausibilityOfGraph(){
+        for (Node node : graph){
+            if (node.getNPossibleBridges() < node.getTargetWeight()){
+                throw new IllegalStateException("The input weight matrix led to an implausible graph - please check your weight matrix and try again!");
             }
         }
     }
