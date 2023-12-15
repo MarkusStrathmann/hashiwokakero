@@ -1,4 +1,5 @@
 import java.util.Vector;
+import java.util.HashMap;
 
 public class SolverE extends AbstractSolver {
     // constructor
@@ -50,10 +51,18 @@ public class SolverE extends AbstractSolver {
         // check plausibility
         boolean patternIsPlausible;
         Node neighborNode;
+        Node distantNeighborNode;
         int nSurroundingBridges;
         Edge edgeOfNeighborNode;
+        HashMap<Node, Integer> hashMapNSurroundingBridges = new HashMap<Node, Integer>();
+        int weightDifferenceUpdated;
+        int nPossibleBridgesUpdated;
+        int edgeBalance;
         for (int[] pattern : trialPatterns) {
             patternIsPlausible = true;
+            hashMapNSurroundingBridges.clear();
+            hashMapNSurroundingBridges.put(node, node.getTargetWeight());
+            // check if neighborNodes are plausible
             for (int dir = 0; dir < 6; dir++) {
                 if (node.getConnectedEdge(dir) != null) {
                     neighborNode = node.getNeighborNode(dir);
@@ -72,9 +81,50 @@ public class SolverE extends AbstractSolver {
                     if (neighborNode.getTargetWeight() < nSurroundingBridges) {
                         patternIsPlausible = false;
                     }
+                    hashMapNSurroundingBridges.put(neighborNode, nSurroundingBridges);
                 }
             }
-            if (patternIsPlausible == true) {
+            if (patternIsPlausible) {
+                // check if distant neighborNodes (neighbor nodes of neighbor nodes) are plausible
+                for (int dir = 0; dir < 6; dir++) {
+                    if (node.getConnectedEdge(dir) != null) {
+                        neighborNode = node.getNeighborNode(dir);
+                        weightDifferenceUpdated = neighborNode.getTargetWeight()
+                                - hashMapNSurroundingBridges.get(neighborNode);
+                        if (weightDifferenceUpdated > 0) {
+                            nPossibleBridgesUpdated = 0;
+                            for (int innerDir = 0; innerDir < 6; innerDir++) {
+                                if (neighborNode.getConnectedEdge(innerDir) != null) {
+                                    distantNeighborNode = neighborNode.getNeighborNode(innerDir);
+                                    if (hashMapNSurroundingBridges.containsKey(distantNeighborNode)) {
+                                        edgeBalance = distantNeighborNode.getTargetWeight()
+                                                - hashMapNSurroundingBridges.get(distantNeighborNode);
+                                        if (edgeBalance == 1
+                                                && neighborNode.getConnectedEdge(innerDir).getNPossibleBridges() >= 1) {
+                                            nPossibleBridgesUpdated++;
+                                        } else if (edgeBalance > 1
+                                                && neighborNode.getConnectedEdge(innerDir).getNPossibleBridges() == 1) {
+                                            nPossibleBridgesUpdated++;
+                                        } else if (edgeBalance > 1
+                                                && neighborNode.getConnectedEdge(innerDir).getNPossibleBridges() > 1) {
+                                            nPossibleBridgesUpdated++;
+                                            nPossibleBridgesUpdated++;
+                                        }
+                                    } else {
+                                        nPossibleBridgesUpdated += neighborNode.getConnectedEdge(innerDir)
+                                                .getNPossibleBridges();
+                                    }
+                                }
+                            }
+                            if (weightDifferenceUpdated > nPossibleBridgesUpdated) {
+                                patternIsPlausible = false;
+                            }
+                        }
+                    }
+                }
+            }
+            // add pattern if plausible
+            if (patternIsPlausible) {
                 plausibleSolutions.add(pattern);
             }
         }
