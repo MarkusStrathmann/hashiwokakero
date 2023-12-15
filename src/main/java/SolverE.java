@@ -145,7 +145,7 @@ public class SolverE extends AbstractSolver {
                     node.getConnectedEdge(dir).blockCrossingEdges(edges);
                     buildInfo = buildInfo(node, dir);
                     System.out.println(buildInfo
-                            + " with value 1: (common new bridge in all plausible solutions)");
+                            + " with value 1: common new bridge in all plausible solutions (builded common bridge)");
                 }
             }
         }

@@ -321,7 +321,7 @@ public class Graph {
                         break;
                     }
 
-                    // nFunnyEdges == nFreeEdges -1
+                    // ambiguous square
                     buildedBridge = SolverC.apply(node, edges);
                     if (buildedBridge == true) {
                         break;
